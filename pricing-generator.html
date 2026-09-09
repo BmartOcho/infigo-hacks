@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infigo Pricing Script Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e17;
+  --surface: #111827;
+  --surface-2: #1a2234;
+  --surface-3: #243049;
+  --border: #2a3654;
+  --border-focus: #3b82f6;
+  --text: #e2e8f0;
+  --text-dim: #8896b3;
+  --text-muted: #5a6a8a;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+  --green: #22c55e;
+  --green-dim: rgba(34, 197, 94, 0.12);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245, 158, 11, 0.12);
+  --red: #ef4444;
+  --red-dim: rgba(239, 68, 68, 0.12);
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+}
+
+.app-header .logo {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.app-header .subtitle {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-left: auto;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: calc(100vh - 85px);
+}
+
+/* ---- LEFT PANEL ---- */
+.config-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  max-height: calc(100vh - 85px);
+}
+
+.panel-section {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-section:last-child { border-bottom: none; }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.field-group {
+  margin-bottom: 16px;
+}
+
+.field-group:last-child { margin-bottom: 0; }
+
+.field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-label .hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238896b3' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+textarea {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Tier table */
+.tier-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.tier-table th {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tier-table td {
+  padding: 4px 4px;
+}
+
+.tier-table input {
+  padding: 8px 10px;
+  font-size: 13px;
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.tier-table .tier-row {
+  position: relative;
+}
+
+.tier-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.btn-icon {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  font-size: 16px;
+  color: var(--text-dim);
+  background: transparent;
+}
+
+.btn-icon:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.btn-icon.danger:hover {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.btn-add-tier {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent-glow);
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-top: 8px;
+}
+
+.btn-add-tier:hover {
+  background: rgba(59, 130, 246, 0.25);
+}
+
+/* Checkbox */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.checkbox-row label {
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+/* ---- RIGHT PANEL ---- */
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.output-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.btn-generate {
+  padding: 10px 20px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-generate:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-generate:active { transform: translateY(0); }
+
+.btn-copy {
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-copy:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+.btn-copy.copied {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+.output-info {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.code-container {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+}
+
+.code-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 300px;
+  tab-size: 4;
+}
+
+.code-block .comment { color: #6b7f9e; }
+.code-block .keyword { color: #c084fc; }
+.code-block .string { color: #34d399; }
+.code-block .number { color: #fb923c; }
+.code-block .function { color: #60a5fa; }
+
+/* Preview section */
+.preview-section {
+  padding: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.preview-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.preview-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.preview-card .label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+
+.preview-card .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.preview-card .detail {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--surface-3); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: var(--green);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="logo">V</div>
+  <h1>Pricing Script Generator</h1>
+  <span class="subtitle">Infigo MegaEdit Batch Products &mdash; v2 (cart-multiplier safe)</span>
+</header>
+
+<div class="main-layout">
+  <!-- LEFT: Configuration -->
+  <div class="config-panel">
+
+    <div class="panel-section">
+      <div class="section-label">Product Settings</div>
+
+      <div class="field-group">
+        <div class="field-label">Script Name</div>
+        <input type="text" id="scriptName" value="Name Badges - Batch" placeholder="e.g. Business Cards Standard">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Pricing Mode</div>
+        <select id="pricingMode">
+          <option value="totalQty">Total Quantity (Qty × Records)</option>
+          <option value="perRecord">Per Record (ignore Qty)</option>
+          <option value="perCopy">Per Copy (Qty only, Records = 1)</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="checkbox-row">
+          <input type="checkbox" id="isBatchProduct" checked>
+          <label for="isBatchProduct">This is a batch / CSV upload product</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="checkbox-row">
+          <input type="checkbox" id="includeSetupFee">
+          <label for="includeSetupFee">Include one-time setup fee</label>
+        </div>
+      </div>
+
+      <div class="field-group" id="setupFeeGroup" style="display:none;">
+        <div class="field-label">Setup Fee <span class="hint">($)</span></div>
+        <input type="number" id="setupFee" value="0" step="0.01" min="0">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">Price Tiers</div>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+        Define price per unit at each quantity break. Total quantity = Qty entered × CSV records (in Total Quantity mode).
+      </p>
+
+      <table class="tier-table">
+        <thead>
+          <tr>
+            <th style="width:35%;">Min Qty</th>
+            <th style="width:35%;">Unit Price</th>
+            <th style="width:30%;"></th>
+          </tr>
+        </thead>
+        <tbody id="tierBody">
+        </tbody>
+      </table>
+
+      <button class="btn-add-tier" onclick="addTierRow()">+ Add Tier</button>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">Validation Rules</div>
+
+      <div class="field-group">
+        <div class="field-label">Minimum Total Quantity</div>
+        <input type="number" id="minQty" value="1" min="0">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Maximum Total Quantity <span class="hint">(0 = no limit)</span></div>
+        <input type="number" id="maxQty" value="0" min="0">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Fallback Price <span class="hint">(if no tier matches)</span></div>
+        <input type="number" id="fallbackPrice" value="9999.99" step="0.01" min="0">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">Test Values</div>
+
+      <div class="field-group">
+        <div class="field-label">Test Quantity (from product page)</div>
+        <input type="number" id="testQty" value="1" min="1">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Test CSV Records</div>
+        <input type="number" id="testRecords" value="52" min="1">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Output -->
+  <div class="output-panel">
+    <div class="output-toolbar">
+      <button class="btn-generate" onclick="generateScript()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8L2.5 14V2L13.5 8Z" fill="currentColor"/></svg>
+        Generate Script
+      </button>
+      <button class="btn-copy" id="copyBtn" onclick="copyScript()">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3C3 2.44772 3.44772 2 4 2H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Copy to Clipboard
+      </button>
+      <span class="output-info" id="outputInfo"></span>
+    </div>
+
+    <div class="code-container">
+      <div class="code-block" id="codeOutput">// Click "Generate Script" to create your Infigo pricing script.
+//
+// Configure your tiers and settings on the left panel,
+// then generate and copy the output directly into your
+// Infigo product's pricing script configuration.</div>
+    </div>
+
+    <div class="preview-section">
+      <div class="preview-title">Price Preview (based on test values)</div>
+      <div class="preview-grid" id="previewGrid">
+        <div class="preview-card">
+          <div class="label">Total Quantity</div>
+          <div class="value" id="pvTotalQty">&mdash;</div>
+          <div class="detail" id="pvTotalQtyDetail"></div>
+        </div>
+        <div class="preview-card">
+          <div class="label">Unit Returned to Cart</div>
+          <div class="value" id="pvUnitPrice">&mdash;</div>
+          <div class="detail" id="pvUnitPriceDetail"></div>
+        </div>
+        <div class="preview-card">
+          <div class="label">Cart Multiplier</div>
+          <div class="value" id="pvCartMultiplier">&mdash;</div>
+          <div class="detail" id="pvCartMultiplierDetail"></div>
+        </div>
+        <div class="preview-card">
+          <div class="label">Final Cart Total</div>
+          <div class="value" id="pvTotal">&mdash;</div>
+          <div class="detail" id="pvTotalDetail"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ---- State ----
+let tiers = [
+  { minQty: 1, unitPrice: 1.50 },
+];
+
+let generatedScript = '';
+
+// ---- Init ----
+document.addEventListener('DOMContentLoaded', () => {
+  renderTiers();
+  setupListeners();
+  generateScript();
+});
+
+function setupListeners() {
+  document.getElementById('includeSetupFee').addEventListener('change', (e) => {
+    document.getElementById('setupFeeGroup').style.display = e.target.checked ? 'block' : 'none';
+  });
+
+  // Auto-regenerate on any input change
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('change', () => generateScript());
+    if (el.type === 'number' || el.type === 'text') {
+      el.addEventListener('input', debounce(() => generateScript(), 400));
+    }
+  });
+}
+
+function debounce(fn, ms) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+// ---- Tier Management ----
+function renderTiers() {
+  const tbody = document.getElementById('tierBody');
+  tbody.innerHTML = '';
+
+  tiers.forEach((tier, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'tier-row';
+    tr.innerHTML = `
+      <td><input type="number" value="${tier.minQty}" min="1"
+           onchange="updateTier(${i}, 'minQty', this.value)"
+           oninput="debouncedUpdateTier(${i}, 'minQty', this.value)"></td>
+      <td><input type="number" value="${tier.unitPrice}" min="0" step="0.01"
+           onchange="updateTier(${i}, 'unitPrice', this.value)"
+           oninput="debouncedUpdateTier(${i}, 'unitPrice', this.value)"></td>
+      <td>
+        <div class="tier-actions">
+          ${tiers.length > 1 ? `<button class="btn-icon danger" onclick="removeTier(${i})" title="Remove tier">×</button>` : ''}
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+const _debouncedGen = debounce(() => generateScript(), 400);
+
+function debouncedUpdateTier(i, key, val) {
+  tiers[i][key] = parseFloat(val) || 0;
+  _debouncedGen();
+}
+
+function updateTier(i, key, val) {
+  tiers[i][key] = parseFloat(val) || 0;
+  generateScript();
+}
+
+function addTierRow() {
+  const lastTier = tiers[tiers.length - 1];
+  tiers.push({
+    minQty: (lastTier ? lastTier.minQty + 50 : 1),
+    unitPrice: Math.max(0.01, (lastTier ? lastTier.unitPrice - 0.50 : 5.00))
+  });
+  renderTiers();
+  generateScript();
+}
+
+function removeTier(i) {
+  tiers.splice(i, 1);
+  renderTiers();
+  generateScript();
+}
+
+// ---- Script Generator ----
+function generateScript() {
+  const config = getConfig();
+  const sortedTiers = [...tiers].sort((a, b) => a.minQty - b.minQty);
+
+  let script = '';
+
+  // Header comment
+  script += `// ============================================================\n`;
+  script += `// Infigo Pricing Script: ${config.scriptName}\n`;
+  script += `// Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n`;
+  script += `// Mode: ${config.pricingMode === 'totalQty' ? 'Total Quantity (Qty × Records)' : config.pricingMode === 'perRecord' ? 'Per Record' : 'Per Copy'}\n`;
+  script += `// ============================================================\n`;
+  script += `// CART MULTIPLIER NOTE:\n`;
+  script += `// Infigo's cart auto-multiplies the returned value by Item.Quantity\n`;
+  script += `// AND by NumberOfRecords (for batch products). To get the desired\n`;
+  script += `// total, this script divides the desired order total by that same\n`;
+  script += `// (orderQty × recordCount) so the cart's multiplication restores it.\n`;
+  script += `// DO NOT hand-edit the FINAL PRICE CALCULATION block.\n`;
+  script += `// ============================================================\n\n`;
+
+  // Configuration block - easy to edit
+  script += `// ---- CONFIGURATION (edit these values as needed) ----\n`;
+  script += `var TIERS = [\n`;
+  sortedTiers.forEach((t, i) => {
+    script += `    { minQty: ${t.minQty}, unitPrice: ${t.unitPrice.toFixed(2)} }`;
+    script += i < sortedTiers.length - 1 ? ',\n' : '\n';
+  });
+  script += `];\n\n`;
+
+  script += `var SETUP_FEE = ${config.includeSetupFee ? config.setupFee.toFixed(2) : '0.00'};\n`;
+  script += `var FALLBACK_PRICE = ${config.fallbackPrice.toFixed(2)};\n`;
+  script += `var MIN_TOTAL_QTY = ${config.minQty};\n`;
+  script += `var MAX_TOTAL_QTY = ${config.maxQty}; // 0 = no limit\n\n`;
+
+  // Calculate total quantity based on mode
+  script += `// ---- QUANTITY CALCULATION ----\n`;
+  script += `var orderQty = Item.Quantity || 1;\n`;
+
+  if (config.isBatchProduct) {
+    script += `var recordCount = (Item.IsBatch && Item.NumberOfRecords > 0) ? Item.NumberOfRecords : 1;\n`;
+  } else {
+    script += `var recordCount = 1;\n`;
+  }
+
+  script += `\n`;
+
+  switch (config.pricingMode) {
+    case 'totalQty':
+      script += `// Total Quantity = copies per record × number of records\n`;
+      script += `var totalQty = orderQty * recordCount;\n`;
+      break;
+    case 'perRecord':
+      script += `// Per Record mode: price based on record count only\n`;
+      script += `var totalQty = recordCount;\n`;
+      break;
+    case 'perCopy':
+      script += `// Per Copy mode: price based on quantity only\n`;
+      script += `var totalQty = orderQty;\n`;
+      break;
+  }
+
+  script += `debug("Order Qty: " + orderQty + ", Records: " + recordCount + ", Total Qty: " + totalQty);\n\n`;
+
+  // Validation
+  script += `// ---- VALIDATION ----\n`;
+  script += `if (totalQty < MIN_TOTAL_QTY) {\n`;
+  script += `    alert("Minimum quantity is " + MIN_TOTAL_QTY + ". Current total: " + totalQty);\n`;
+  script += `    return FALLBACK_PRICE;\n`;
+  script += `}\n\n`;
+
+  script += `if (MAX_TOTAL_QTY > 0 && totalQty > MAX_TOTAL_QTY) {\n`;
+  script += `    alert("Maximum quantity is " + MAX_TOTAL_QTY + ". Current total: " + totalQty);\n`;
+  script += `    return FALLBACK_PRICE;\n`;
+  script += `}\n\n`;
+
+  // Tier lookup
+  script += `// ---- TIER PRICE LOOKUP ----\n`;
+  script += `var unitPrice = FALLBACK_PRICE;\n`;
+  script += `for (var i = TIERS.length - 1; i >= 0; i--) {\n`;
+  script += `    if (totalQty >= TIERS[i].minQty) {\n`;
+  script += `        unitPrice = TIERS[i].unitPrice;\n`;
+  script += `        break;\n`;
+  script += `    }\n`;
+  script += `}\n`;
+  script += `debug("Matched tier unit price: $" + unitPrice.toFixed(2));\n\n`;
+
+  // Final price - UNIVERSAL CART-SAFE FORMULA
+  script += `// ---- FINAL PRICE CALCULATION (cart-multiplier safe) ----\n`;
+  script += `// We compute the desired order total, then divide by the cart's\n`;
+  script += `// multiplier (orderQty × recordCount) so cart-side multiplication\n`;
+  script += `// restores it exactly. Works for all three modes.\n`;
+  script += `var desiredOrderTotal = (unitPrice * totalQty) + SETUP_FEE;\n`;
+  script += `var cartMultiplier = orderQty * recordCount;\n`;
+  script += `var finalUnitPrice = desiredOrderTotal / cartMultiplier;\n\n`;
+  script += `debug("Desired order total: $" + desiredOrderTotal.toFixed(2));\n`;
+  script += `debug("Cart multiplier: " + cartMultiplier);\n`;
+  script += `debug("Unit price returned to cart: $" + finalUnitPrice.toFixed(4));\n`;
+  script += `debug("Expected cart total: $" + (finalUnitPrice * cartMultiplier).toFixed(2));\n\n`;
+
+  script += `return finalUnitPrice;\n`;
+
+  generatedScript = script;
+  document.getElementById('codeOutput').textContent = script;
+
+  // Update preview
+  updatePreview(config, sortedTiers);
+
+  // Update output info
+  const lineCount = script.split('\n').length;
+  document.getElementById('outputInfo').textContent = `${lineCount} lines`;
+}
+
+function getConfig() {
+  return {
+    scriptName: document.getElementById('scriptName').value || 'Untitled',
+    pricingMode: document.getElementById('pricingMode').value,
+    isBatchProduct: document.getElementById('isBatchProduct').checked,
+    includeSetupFee: document.getElementById('includeSetupFee').checked,
+    setupFee: parseFloat(document.getElementById('setupFee').value) || 0,
+    minQty: parseInt(document.getElementById('minQty').value) || 0,
+    maxQty: parseInt(document.getElementById('maxQty').value) || 0,
+    fallbackPrice: parseFloat(document.getElementById('fallbackPrice').value) || 9999.99,
+    testQty: parseInt(document.getElementById('testQty').value) || 1,
+    testRecords: parseInt(document.getElementById('testRecords').value) || 1,
+  };
+}
+
+function updatePreview(config, sortedTiers) {
+  const qty = config.testQty;
+  const records = config.isBatchProduct ? config.testRecords : 1;
+
+  let totalQty;
+  switch (config.pricingMode) {
+    case 'totalQty': totalQty = qty * records; break;
+    case 'perRecord': totalQty = records; break;
+    case 'perCopy': totalQty = qty; break;
+  }
+
+  let unitPrice = config.fallbackPrice;
+  for (let i = sortedTiers.length - 1; i >= 0; i--) {
+    if (totalQty >= sortedTiers[i].minQty) {
+      unitPrice = sortedTiers[i].unitPrice;
+      break;
+    }
+  }
+
+  const setupFee = config.includeSetupFee ? config.setupFee : 0;
+  const desiredOrderTotal = (unitPrice * totalQty) + setupFee;
+  const cartMultiplier = qty * records;
+  const returnedPrice = cartMultiplier > 0 ? desiredOrderTotal / cartMultiplier : 0;
+  const expectedCartTotal = returnedPrice * cartMultiplier;
+
+  document.getElementById('pvTotalQty').textContent = totalQty.toLocaleString();
+  document.getElementById('pvTotalQtyDetail').textContent =
+    config.pricingMode === 'totalQty' ? `${qty} copies × ${records} records` :
+    config.pricingMode === 'perRecord' ? `${records} records` : `${qty} copies`;
+
+  document.getElementById('pvUnitPrice').textContent = '$' + returnedPrice.toFixed(4);
+  const matchedTier = [...sortedTiers].reverse().find(t => totalQty >= t.minQty);
+  document.getElementById('pvUnitPriceDetail').textContent =
+    matchedTier ? `Tier @ $${matchedTier.unitPrice.toFixed(2)} → adjusted for cart × ${cartMultiplier}` : 'No tier matched';
+
+  document.getElementById('pvCartMultiplier').textContent = cartMultiplier.toLocaleString();
+  document.getElementById('pvCartMultiplierDetail').textContent = `Qty (${qty}) × Records (${records})`;
+
+  document.getElementById('pvTotal').textContent = '$' + expectedCartTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.getElementById('pvTotalDetail').textContent =
+    setupFee > 0
+      ? `${totalQty} units @ $${unitPrice.toFixed(2)} + $${setupFee.toFixed(2)} setup`
+      : `${totalQty} units @ $${unitPrice.toFixed(2)}`;
+}
+
+// ---- Copy ----
+function copyScript() {
+  if (!generatedScript) return;
+
+  // Try modern clipboard API first, fall back to textarea method
+  function onSuccess() {
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied!`;
+    showToast('Script copied to clipboard');
+
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3C3 2.44772 3.44772 2 4 2H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Copy to Clipboard`;
+    }, 2000);
+  }
+
+  function fallbackCopy() {
+    var ta = document.createElement('textarea');
+    ta.value = generatedScript;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    ta.style.top = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      var ok = document.execCommand('copy');
+      if (ok) { onSuccess(); }
+      else { showToast('Copy failed — try selecting the code manually'); }
+    } catch (e) {
+      showToast('Copy failed — try selecting the code manually');
+    }
+    document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(generatedScript).then(onSuccess).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+</script>
+
+</body>
+</html>

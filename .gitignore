@@ -1,0 +1,24 @@
+# Local-only material: test artifacts, working files, and anything not meant as reference
+Customer-CSV-Additions/
+Claude outputs/
+_skills-pending-push/
+mexgen/dump-*/
+*.mex
+*.pdf
+*.xlsx
+NEXT.md
+STARTER-PROMPT.md
+MEX-GENERATOR-STARTER-PROMPT.md
+
+# Secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
