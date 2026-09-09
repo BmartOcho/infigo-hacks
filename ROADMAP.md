@@ -3,6 +3,7 @@
 Living hub for documenting and solving gaps in the Infigo storefront platform that Infigo itself hasn't addressed.
 
 ## Now
+- **Repo went public 2026-09-09.** Everything committed must stay free of personal, shop, and client identifiers (see README "What's not in this repo"). Next content push: turn the CSV image-swap finding below into a proper `docs-library/07-invent/` doc.
 - **Name-badge batch product — ConnectID re-introduction.** Test order with custom pricing script worked. Investigating whether ConnectID can be re-attached for PrintIQ order routing without re-triggering the batch cart-multiplication bug. Confirmed 2026-05-27: with pricing script OFF + ConnectID GetPrice ON, 22-record CSV produces ~$7,000 (multiplier still fires). Two remaining paths: (a) test **"Use parent pricing for versioned uploads"** cart setting on a clone, or (b) commit to **routing-only** architecture (custom script for pricing + empty GetPrice JSON + ConnectID for checkout submission only). See the batch / cart multiplication section in `docs-library/INDEX.md`.
 - **Name-badge batch product — final QA.** Pricing script regenerated with v2 generator (cart-multiplier safe), CSV image-swap via `AlbumName/ImageName.ext` confirmed working. Place a test order end-to-end and verify the $138 total holds through checkout + the correct image renders per record on the final PDF.
 
