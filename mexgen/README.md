@@ -15,13 +15,13 @@ cd mexgen
 # 1. Inventory the donor + dump its guts for Claude to read
 py mexgen.py inspect "..\INFIGO_Example BC_v-01.mex" --dump donor-dump
 
-# 2. Fill the TODO_AFTER_INSPECT values in living.json / communities.json
+# 2. Fill the TODO_AFTER_INSPECT values in field.json / regional.json
 #    (back-art field name from the inspect field list; keepFields for any
 #    static art fields that must survive the strip)
 
 # 3. Build (validates first; writes nothing on validation failure)
-py mexgen.py build living.json
-py mexgen.py build communities.json
+py mexgen.py build field.json
+py mexgen.py build regional.json
 
 # 4. Import the v-05 files into MegaEdit — import errors are invisible until
 #    tested, so this is the real validation.

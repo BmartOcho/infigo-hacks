@@ -1,18 +1,18 @@
 {
   "_notes": [
-    "Product A — Living Card (spec §5). Finalized against v-01 donor dump 2026-07-01.",
+    "Product A — Field Card (spec §5). Finalized against v-01 donor dump 2026-07-01.",
     "Keeps donor fullName/title fields (tokens [#First Name#] [#Last Name#] / [#Title#]) — variables below recreate those exact display names.",
-    "Back art: background_2.pdf byte-swapped with Living_back.pdf (verified mechanism); donor's empty IMAGE field + logic rule are stripped; both cliparts removed + resources pruned.",
-    "New lines clone donor 'title' (Purveyor - Textured 8pt look) and stack below it.",
+    "Back art: background_2.pdf byte-swapped with Field_back.pdf (verified mechanism); donor's empty IMAGE field + logic rule are stripped; both cliparts removed + resources pruned.",
+    "New lines clone donor 'title' (donor body-font 8pt look) and stack below it.",
     "Prefill (First/Last/Title/Email) is product-level via Prepopulate Data Script — not in this file."
   ],
   "donor": "../INFIGO_Example BC_v-01.mex",
-  "output": "../INFIGO_Example BC_Living_v-05.mex",
+  "output": "../INFIGO_Example BC_Field_v-05.mex",
   "mode": "replace",
   "keepFields": ["fullName", "title"],
-  "assetsRemove": ["cliparts/Communities_back.pdf", "cliparts/Living_back.pdf"],
+  "assetsRemove": ["cliparts/Regional_back.pdf", "cliparts/Field_back.pdf"],
   "assetsAdd": [],
-  "assetContentSwap": { "backgrounds/background_2.pdf": "cliparts/Living_back.pdf" },
+  "assetContentSwap": { "backgrounds/background_2.pdf": "cliparts/Field_back.pdf" },
   "stacks": {
     "contact": { "x": 93.6, "yStart": 63, "lineHeight": 11, "width": 162, "height": 10 }
   },
@@ -22,7 +22,7 @@
     { "name": "Title",          "type": "TEXT", "required": true,  "message": "Title is required" },
     { "name": "Direct Phone",   "type": "TEXT", "required": true,  "message": "Phone is required" },
     { "name": "Email",          "type": "TEXT", "required": true,  "message": "Email is required" },
-    { "name": "Community Name", "type": "TEXT", "required": true,  "message": "Community name is required" },
+    { "name": "Location Name", "type": "TEXT", "required": true,  "message": "Location name is required" },
     { "name": "Street Address", "type": "TEXT", "required": true,  "message": "Street address is required" },
     { "name": "Suite or Unit",  "type": "TEXT", "required": false },
     { "name": "City",           "type": "TEXT", "required": true,  "message": "City is required" },
@@ -31,15 +31,15 @@
   ],
   "form": [
     "First Name", "Last Name", "Title", "Direct Phone", "Email",
-    "Community Name", "Street Address", "Suite or Unit", "City", "State", "ZIP"
+    "Location Name", "Street Address", "Suite or Unit", "City", "State", "ZIP"
   ],
   "fields": [
     { "name": "phoneLine", "type": "TEXT", "page": 1, "protoFrom": "title",
       "value": "[#Direct Phone#]", "stack": "contact" },
     { "name": "emailLine", "type": "TEXT", "page": 1, "protoFrom": "title",
       "value": "[#Email#]", "stack": "contact" },
-    { "name": "communityLine", "type": "TEXT", "page": 1, "protoFrom": "title",
-      "value": "[#Community Name#]", "stack": "contact" },
+    { "name": "locationLine", "type": "TEXT", "page": 1, "protoFrom": "title",
+      "value": "[#Location Name#]", "stack": "contact" },
     { "name": "streetLine", "type": "TEXT", "page": 1, "protoFrom": "title",
       "value": "[#Street Address#] [#Suite or Unit#]", "stack": "contact" },
     { "name": "cityStateZipLine", "type": "TEXT", "page": 1, "protoFrom": "title",

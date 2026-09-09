@@ -16,8 +16,8 @@ backgrounds/            (folder)
 backgrounds/background_1.pdf   front background, 270x162 pt
 backgrounds/background_2.pdf   back background,  270x162 pt
 cliparts/               (folder)
-cliparts/Communities_back.pdf  ~10 MB embedded PDF
-cliparts/Living_back.pdf       ~10 MB embedded PDF
+cliparts/Regional_back.pdf  ~10 MB embedded PDF
+cliparts/Field_back.pdf       ~10 MB embedded PDF
 template.xml            24 KB — ALL structure lives here
 ```
 No manifest/hash file → nothing enforces integrity, so hand-edits repackage cleanly. File weight is 99% the embedded PDF assets (produced by InDesign export).
@@ -40,7 +40,7 @@ Top-level keys: `resources, variables[], forms, layouts, pages[], groups, fields
 ```
 {name:"Which Example Group?", dynamicName:"Which_Example_Group", type:"DROPDOWN",
  validation:{required:{enabled:true, message:"Please Select One"}},
- values:[{id,label:"Communities",value:"Communities"},{...,"Living"}], defaultValue:0}
+ values:[{id,label:"Regional",value:"Regional"},{...,"Field"}], defaultValue:0}
 {name:"First Name", dynamicName:"First_Name", type:"TEXT", ...}   # + Last Name, Title
 ```
 Types seen: `DROPDOWN`, `TEXT`. Required lives at `validation.required.{enabled,message}`.
@@ -59,7 +59,7 @@ Types seen: `DROPDOWN`, `TEXT`. Required lives at `validation.required.{enabled,
 Rule "background selection":
   ruleItem(And): IF  {source:{id:<variableGUID>, type:"Variable"}, condition:"Equals", value:[<valueGUID>]}
                  THEN {target:{id:<fieldGUID>, type:"Field"}, action:"SetImage"}
-  ruleItem(And): IF group Equals Living → SetImage(back field) = Living
+  ruleItem(And): IF group Equals Field → SetImage(back field) = Field
 ```
 Conditions reference a variable GUID + operator + value GUID; actions target a field GUID with a verb (`SetImage`, and presumably Show/Hide/SetValue per invent-variable-logic.md).
 
@@ -102,10 +102,10 @@ Type into the matching form input → the token renders live. There is NO field�
 - Tooling: `mexgen/mexgen.py` (inspect/build/validate) encodes all of the above; both example v-05 products generated + structurally verified with it.
 
 ## Advanced features — harvested 2026-07-02 from production files
-Sources: `INFIGO_Example Living BC_v-01.mex` (new BASELINE, production Living card) and `INFIGO_Event Flyer-English_02.mex` (complex retail event flyer, 17 logic rules). Dumps: `mexgen/dump-living-baseline/`, `mexgen/dump-event-flyer/`.
+Sources: `INFIGO_Example Field BC_v-01.mex` (new BASELINE, production Field card) and `INFIGO_Event Flyer-English_02.mex` (complex retail event flyer, 17 logic rules). Dumps: `mexgen/dump-living-baseline/`, `mexgen/dump-event-flyer/`.
 
 ### Rich text (inline HTML in fieldValue)
-`fieldValue` accepts HTML: `<br />` line breaks, `<span style="font-family:Purveyor - Textured;font-size:8">…</span>` inline restyling, HTML entities (`&#x201C;`). Tokens mix freely with markup:
+`fieldValue` accepts HTML: `<br />` line breaks, `<span style="font-family:Body Font;font-size:8">…</span>` inline restyling, HTML entities (`&#x201C;`). Tokens mix freely with markup:
 `[#Location Name#]<br /><span style="font-family:...;font-size:8">[#Address#]<br />[#City#], [#State#] [#Zip code#]</span>`
 Same string sits in the XML CDATA. This is how one field carries a multi-size text block.
 
@@ -131,7 +131,7 @@ Same string sits in the XML CDATA. This is how one field carries a multi-size te
 `SetImage` (BC v-01), `Show`/`Hide` (53/16 in flyer), `SetText`, `SetFontColor`, `SetBarcodeFontColor`; rules may carry `defaultActions`. Layout VARIANTS (1/2/3-column icon sets) = parallel field groups named `1A-*/2A-*/3A-*` toggled by Show/Hide rules from an "Icon Sets" dropdown.
 
 ### Baseline anomaly (flag)
-The production Living BC baseline still contains the "Which Example Group?" dropdown, BOTH back cliparts, and the background-selection rule with **empty actions[]** — and the back IMAGE field has `imageValue.type:"NONE"`. Either MegaEdit stripped the actions on export or they were removed manually; the back art binding must be re-checked before generating from this donor.
+The production Field BC baseline still contains the "Which Example Group?" dropdown, BOTH back cliparts, and the background-selection rule with **empty actions[]** — and the back IMAGE field has `imageValue.type:"NONE"`. Either MegaEdit stripped the actions on export or they were removed manually; the back art binding must be re-checked before generating from this donor.
 
 ## Related
 [[invent-variable-logic]]

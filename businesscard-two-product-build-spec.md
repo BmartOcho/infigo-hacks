@@ -2,7 +2,7 @@
 
 _Infigo storefront · Infigo + MegaEdit · drafted 2026-07-01_
 
-Customer: property-management client with two employee classes — **Living** (on-site staff, one community) and **Communities** (managers, multiple communities). Build is **self-service**: staff log in and fill their own card fields; no CSV/batch. This spec delivers two MegaEdit products, each gated to its own customer group.
+Customer: multi-location client with two employee classes — **Field** (on-site staff, one location) and **Regional** (managers, multiple locations). Build is **self-service**: staff log in and fill their own card fields; no CSV/batch. This spec delivers two MegaEdit products, each gated to its own customer group.
 
 ---
 
@@ -18,36 +18,36 @@ Customer: property-management client with two employee classes — **Living** (o
 
 Two open items that change the build if the answer flips:
 
-1. **Multi-community output.** This spec assumes a manager who runs 4 communities **logs in and orders once per community** (each order = that community's card). If instead they must get all cards in **one sitting**, interactive MegaEdit can't personalize N cards in one pass — the Communities side would need a small per-community CSV feed instead. You flagged you'd double-check this.
-2. **Community card content.** This spec assumes the Communities card **prints the community name** (name + phone + community email) and only *omits the street address*. If the Communities card should carry no community identifier at all, drop the Community Name field from Product B.
+1. **Multi-location output.** This spec assumes a manager who runs 4 locations **logs in and orders once per location** (each order = that location's card). If instead they must get all cards in **one sitting**, interactive MegaEdit can't personalize N cards in one pass — the Regional side would need a small per-location CSV feed instead. You flagged you'd double-check this.
+2. **Regional card content.** This spec assumes the Regional card **prints the location name** (name + phone + location email) and only *omits the street address*. If the Regional card should carry no community identifier at all, drop the Location Name field from Product B.
 
 ---
 
 ## 3. Architecture at a glance
 
-| | Product A — Living Card | Product B — Communities Card |
+| | Product A — Field Card | Product B — Regional Card |
 |---|---|---|
-| Audience | "living" staff (Living customer group) | "communities" staff (Communities group) |
-| Logo | Living tree (B&W), static | Community tree (B&W), static |
-| Community name | Yes | Yes _(confirm — see §2)_ |
+| Audience | "field" staff (Field customer group) | "regional" staff (Regional group) |
+| Logo | Field logo (B&W), static | Regional logo (B&W), static |
+| Location name | Yes | Yes _(confirm — see §2)_ |
 | Street address | **Yes**, required | **No** |
-| Phone | Direct phone | Community phone (differs per community) |
-| Email(s) | 1 — personal/work | 2 — personal + community |
-| Cards per person | One | One per community (order per community) |
+| Phone | Direct phone | Location phone (differs per location) |
+| Email(s) | 1 — personal/work | 2 — personal + location |
+| Cards per person | One | One per location (order per location) |
 | In-editor logic | None | None (core build) |
 
 ---
 
 ## 4. Prerequisites (one-time platform setup)
 
-1. **Customer groups / roles.** Create (or reuse) two roles: `Living` and `Communities`. Assign every employee to the correct one. Because the split maps to "living"/"communities" in the email, you can bulk-assign at customer import based on the address pattern, or set it manually per user.
-2. **Logo assets.** Upload both B&W tree logos as fixed placed images — one for each product. These are artwork, not editable fields.
+1. **Customer groups / roles.** Create (or reuse) two roles: `Field` and `Regional`. Assign every employee to the correct one. Because the split maps to "field"/"regional" in the email, you can bulk-assign at customer import based on the address pattern, or set it manually per user.
+2. **Logo assets.** Upload both B&W logos as fixed placed images — one for each product. These are artwork, not editable fields.
 3. **Enable Prepopulate Data Script** on each product (fills first/last/title/email from the account — see §7). Path: `Admin > Catalog > Product Types > MegaEdit > MegaEdit Products > Edit product > Scripts tab > enable "Prepopulate Data Script" > Save`.
 4. **Confirm any custom profile fields** you want to prefill (e.g. Job Title) exist on the customer record. Standard fields (first/last/email) are available by default; anything else must be a defined profile field.
 
 ---
 
-## 5. Product A — Living Card
+## 5. Product A — Field Card
 
 ### Fields
 
@@ -58,7 +58,7 @@ Two open items that change the build if the answer flips:
 | Job Title | Text | Yes | Prefill if stored, else CM | |
 | Direct Phone | Text | Yes | CM | |
 | Email | Text | Yes | Prefill (account email) | single email on this card |
-| Community Name | Text | Yes | CM | |
+| Location Name | Text | Yes | CM | |
 | Address — Street | Text | Yes | CM | |
 | Address — Suite/Unit | Text | No | CM | optional line |
 | City | Text | Yes | CM | |
@@ -68,14 +68,14 @@ Two open items that change the build if the answer flips:
 _(City/State/ZIP can be merged into one required line if the layout prefers it — keeps the form shorter.)_
 
 ### Logo
-Living tree logo, placed as static artwork. Not a field.
+Field logo, placed as static artwork. Not a field.
 
 ### Logic
 None. Flat required form.
 
 ---
 
-## 6. Product B — Communities Card
+## 6. Product B — Regional Card
 
 ### Fields
 
@@ -84,22 +84,22 @@ None. Flat required form.
 | First Name | Text | Yes | Prefill (account) | editable |
 | Last Name | Text | Yes | Prefill | editable |
 | Job Title | Text | Yes | Prefill if stored, else CM | |
-| Community Name | Text | Yes _(confirm §2)_ | CM | identifies which community this card is for |
-| Community Phone | Text | Yes | CM | the per-community number that differs |
+| Location Name | Text | Yes _(confirm §2)_ | CM | identifies which location this card is for |
+| Location Phone | Text | Yes | CM | the per-location number that differs |
 | Personal Email | Text | Yes | Prefill (account email) | email #1 |
-| Community Email | Text | Yes | CM | email #2 |
+| Location Email | Text | Yes | CM | email #2 |
 | Direct/Cell Phone | Text | No | CM | optional personal line |
 
 **No address block** on this product.
 
-### Multi-community & the maintenance exception
+### Multi-location & the support-staff exception
 Handled by ordering behavior, not the template:
 
-- A manager over multiple communities **places one order per community**, entering that community's name / phone / community email each time. Each order produces one distinct card.
-- **Maintenance** staff order a **single** card. This is an ordering instruction to communicate to that group — nothing in the template blocks it. (If you want it enforced, the cleanest option is a separate note/role guidance rather than template logic.)
+- A manager over multiple locations **places one order per location**, entering that location's name / phone / location email each time. Each order produces one distinct card.
+- **Support** staff order a **single** card. This is an ordering instruction to communicate to that group — nothing in the template blocks it. (If you want it enforced, the cleanest option is a separate note/role guidance rather than template logic.)
 
 ### Logo
-Community tree logo, placed as static artwork. Not a field.
+Regional logo, placed as static artwork. Not a field.
 
 ### Logic
 None in the core build.
@@ -111,7 +111,7 @@ None in the core build.
 - Enabled per product on the Scripts tab (§4.3).
 - Fills text fields from the customer's account when the editor loads: First Name, Last Name, Job Title (if stored as a profile field), and Email.
 - Prefilled fields stay **editable** and still count as required — the prefill just satisfies the requirement by default.
-- Community Name, Community Phone, Community Email, and the address block are **not** account data → these remain required CM entries.
+- Location Name, Location Phone, Location Email, and the address block are **not** account data → these remain required CM entries.
 
 ---
 
@@ -126,7 +126,7 @@ None in the core build.
 ## 9. Customer-group gating (product visibility)
 
 - On each product, restrict visibility to its role via the product's **ACL / "Limited to customer roles"** setting (Infigo is NopCommerce-based — look for "Subject to ACL" + role selection on the product edit page; confirm the exact label on your build).
-- Living product → visible to `Living` role only. Communities product → `Communities` role only.
+- Field product → visible to `Field` role only. Regional product → `Regional` role only.
 - Net effect: each person logs in and sees exactly one card. The "logo by email" requirement is satisfied structurally — no rule, no selector.
 
 ---
@@ -142,10 +142,10 @@ Only if you want the entered values as separate order-line attributes (for the p
 
 ## 11. Build checklist (in order)
 
-1. Create/confirm `Living` and `Communities` customer roles; assign employees.
-2. Upload both B&W tree logos.
-3. Build **Product A (Living)**: layout + fields per §5, set required flags, place Living logo, enable Prepopulate Data Script.
-4. Build **Product B (Communities)**: layout + fields per §6, set required flags, place Community logo, enable Prepopulate Data Script.
+1. Create/confirm `Field` and `Regional` customer roles; assign employees.
+2. Upload both B&W logos.
+3. Build **Product A (Field)**: layout + fields per §5, set required flags, place Field logo, enable Prepopulate Data Script.
+4. Build **Product B (Regional)**: layout + fields per §6, set required flags, place Regional logo, enable Prepopulate Data Script.
 5. Restrict each product to its role via ACL (§9).
 6. Save each as Product Default.
 7. Run the test plan (§12).
@@ -155,11 +155,11 @@ Only if you want the entered values as separate order-line attributes (for the p
 
 ## 12. Test plan
 
-- **Living user:** log in as a test account in the `Living` role → only the Living card is visible → open editor → First/Last/Title/Email prefilled → all required fields flagged → attempt Add to Basket with a blank field → **blocked** → fill all → proof shows Living logo + address block + single email.
-- **Communities user:** test account in `Communities` role → only the Communities card visible → **two** email fields, **no** address, Community logo, per-community phone → required enforcement works.
-- **Cross-check:** a `Living` user cannot see the Communities product and vice versa.
+- **Field user:** log in as a test account in the `Field` role → only the Field card is visible → open editor → First/Last/Title/Email prefilled → all required fields flagged → attempt Add to Basket with a blank field → **blocked** → fill all → proof shows Field logo + address block + single email.
+- **Regional user:** test account in `Regional` role → only the Regional card visible → **two** email fields, **no** address, Regional logo, per-location phone → required enforcement works.
+- **Cross-check:** a `Field` user cannot see the Regional product and vice versa.
 - **Prefill accuracy:** confirm the prefilled name/title/email match the account.
-- **Multi-community:** place two Communities orders with different community details → two distinct correct cards.
+- **Multi-location:** place two Regional orders with different location details → two distinct correct cards.
 
 ---
 
@@ -167,26 +167,26 @@ Only if you want the entered values as separate order-line attributes (for the p
 
 | # | Customer ask | How this build covers it |
 |---|---|---|
-| 1 | B&W tree logo, Living + Communities variants | Static logo placed per product |
-| 2 | "living" email → Living logo; "communities" → Community logo | Customer-role gating; role derived from email pattern |
-| 3 | Living: community name + address on card | Living fields (§5), required |
-| 4 | Communities: no location address | Address block omitted from Product B |
-| 5 | Multi-community → card each, except Maintenance | One order per community (self-service); Maintenance orders once (policy) |
-| 6 | Communities: 2 emails (personal + community) | Two required email fields (§6) |
+| 1 | B&W logo, Field + Regional variants | Static logo placed per product |
+| 2 | "field" email → Field logo; "regional" → Regional logo | Customer-role gating; role derived from email pattern |
+| 3 | Field: location name + address on card | Field fields (§5), required |
+| 4 | Regional: no location address | Address block omitted from Product B |
+| 5 | Multi-location → card each, except Support staff | One order per location (self-service); Support staff order once (policy) |
+| 6 | Regional: 2 emails (personal + location) | Two required email fields (§6) |
 | 7 | Template, CMs fill fields, all required | Two products, required flags on every field, prefill for account data |
 
 ---
 
 ## 14. If you ever want the single-product version instead
 
-Collapse to one product with a **required "Division" dropdown** (Living / Communities) and add Invent Variable Logic:
+Collapse to one product with a **required "Division" dropdown** (Field / Regional) and add Invent Variable Logic:
 
 ```
 Rule: "Division layout"
-  if  Division Equals "Living"
-      → Show LivingLogo, Show AddressBlock, Hide CommunityLogo, Hide SecondEmail
-  else if Division Equals "Communities"
-      → Show CommunityLogo, Show SecondEmail, Hide LivingLogo, Hide AddressBlock
+  if  Division Equals "Field"
+      → Show FieldLogo, Show AddressBlock, Hide RegionalLogo, Hide SecondEmail
+  else if Division Equals "Regional"
+      → Show RegionalLogo, Show SecondEmail, Hide FieldLogo, Hide AddressBlock
 ```
 
 Trade-offs vs two products: relies on the CM picking Division correctly, shows a branching form, and depends on Variable Logic firing on the dropdown change. Fine for one catalog tile; weaker for guaranteed-correct routing.
