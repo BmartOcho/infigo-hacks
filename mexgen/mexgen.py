@@ -2,6 +2,16 @@
 """
 mexgen.py — config-driven MEX generator for Infigo Invent/MegaEdit templates.
 
+    FROZEN SNAPSHOT — 2026-09-17. Development moved to the mexgen-agent repo,
+    which is canonical from here: it adds `mexgen validate` (a rule set built
+    from every MEX bug we have had to diagnose by hand), a test suite,
+    sanitized fixtures, and SPEC.md documenting the format.
+
+    Do not add features to this copy — they will be lost. Fix them there.
+    This file stays only so this repo keeps a working generator; it is a strict
+    subset of the canonical one, identical apart from the `validate` subcommand
+    wiring. Replace it with a link once mexgen-agent is public.
+
 A .MEX is a plain ZIP (compression=store) containing PDF assets + template.xml.
 The rich model is an embedded JSON at Resources/DataItems/Item[name=InDesignData].
 Layout is stored TWICE (XML <Pages> and InDesignData.fields[]) and must stay in
