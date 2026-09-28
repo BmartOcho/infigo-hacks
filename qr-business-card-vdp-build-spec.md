@@ -107,15 +107,16 @@ END:VCARD
 ```
 
 This text is what the PDF engine encodes, and what the MEX carries as the
-barcode's flat value. **MegaEdit does not build the QR from that text**: a
-barcode carrying only the flat `STANDARD` value imported cleanly and
-rendered an empty box. The config therefore also gives the barcode an
-`options.vcard` map (card field → CSV column, `organization` a literal),
-which the generator writes as the `ADVANCED`/`V_CARD` block a real vCard
-export carries. MegaEdit assembles its own vCard from those bindings, so
-the line-level details below (TYPE parameters, line order) describe the
-PDF engine's output; the storefront's may differ in form while carrying
-the same fields.
+barcode's flat value. Two things the MEX needs beyond it, both learned
+from imports that rendered an empty box: the `Barcode Field` script under
+`<Resources><Scripts>` (every barcode export declares it; without it the
+field is inert, in the editor and the output — the generator now declares
+it whenever it adds a barcode) and, matching a real vCard export, an
+`options.vcard` map (card field → CSV column, `organization` a literal)
+that the generator writes as the `ADVANCED`/`V_CARD` block. MegaEdit may
+assemble its own vCard from those bindings, so the line-level details
+below (TYPE parameters, line order) describe the PDF engine's output; the
+storefront's may differ in form while carrying the same fields.
 
 Cell is listed before office, on the card and in the vCard. Error
 correction L, no quiet zone inside the box (the white knock-out around the
