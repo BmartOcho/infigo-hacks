@@ -12,6 +12,8 @@ The goal is a living problem-solver for people running Infigo storefronts. Every
 | See what's being worked on and what's been ruled out | [`ROADMAP.md`](ROADMAP.md) |
 | Generate a cart-safe pricing script | [`pricing-generator.html`](pricing-generator.html) (open in a browser) |
 | Build a `.mex` file from a JSON config | [`mexgen/README.md`](mexgen/README.md) |
+| Drive a static PDF template with a CSV (variable data, QR vCards, spot mask) | [`vdp/README.md`](vdp/README.md) |
+| Build a QR business card as a CSV-batch MegaEdit product | [`qr-business-card-vdp-build-spec.md`](qr-business-card-vdp-build-spec.md) |
 | Read the Invent-in-batch investigation | [`experiments/invent-scripts-slot-test/RESULTS.md`](experiments/invent-scripts-slot-test/RESULTS.md) |
 
 ## Layout
@@ -27,6 +29,7 @@ docs-library/       Harvested docs, one markdown file per source, organized by o
   07-invent/            InDesign plugin, MEX format, Variable Logic
 experiments/        Probe scripts and results for open questions
 mexgen/             Config-driven MEX generator (Python, stdlib only)
+vdp/                Config-driven variable-data PDF engine (pymupdf, qrcode, opencv)
 *.md (root)         Build specs and setup guides for specific product patterns
 pricing-generator.html   Standalone pricing script generator
 ```
