@@ -77,7 +77,7 @@ half-written: a failing record stops the run before the merged file exists.
 | `fields[]` | `{name, value | lines, baseline | baselines, font, size, color, x, wrap_width, max_lines, align_v, leading, page}` |
 | `qr` | `{page, box, module_color, error_correction, quiet_zone_modules, vcard[], omit_line_if_blank, line_ending}` |
 | `csv` | `{headers[], required[], skip_row_if_blank}`. `headers` is the contract with the customer's file |
-| `megaedit.derived_columns` | `{"Column": "template"}` appended by `prep_csv.py`; blank when all tokens blank |
+| `megaedit.derived_columns` | `{"Column": "template"}` appended by `prep_csv.py`; blank when all tokens blank. `{"Column": {"vcard": true, "line_ending": "LF"}}` writes the whole `qr.vcard` (blank lines dropped) as one multi-line cell, for a MegaEdit barcode bound to that variable |
 | `output` | `{single, merged, spot_uv_suffix}`; `single` may carry tokens |
 | `qc` | `{decode_dpi, duplicate_warn: [[a, b], …]}` |
 | `spot_uv` | `{spot_name, elements: [{type: qr} | {type: field, name} | {type: rect, rect, page}]}` |
@@ -109,3 +109,9 @@ disappear with its value (`C ` before a blank cell number) has to travel in
 the data. `prep_csv.py` keeps every raw column as-is — the upload still maps
 1:1 onto the template's variables — applies the transforms, and appends the
 `derived_columns`. Output is UTF-8 with BOM, `<raw>-megaedit.csv` by default.
+
+A MegaEdit barcode whose value is token text is resolved once at save, so
+a per-record QR in batch needs the whole vCard in the data: a derived
+column declared `{"vcard": true}` carries it, built from the same
+`qr.vcard` lines and blank-line rule the PDF engine uses, so both engines
+encode the same contact.

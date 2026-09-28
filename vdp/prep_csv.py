@@ -8,7 +8,9 @@ carried in the data instead. This step keeps every raw column as-is (so the
 upload maps 1:1 onto the template's variables), applies the layout's
 transforms (phone formatting), and appends the derived columns the layout
 declares under megaedit.derived_columns - each blank when every token in it
-is blank.
+is blank. A derived column declared as {"vcard": true} carries the layout's
+whole vCard (qr.vcard, blank lines dropped) as one multi-line cell, for a
+barcode bound to that variable.
 
 Usage:
   py prep_csv.py <layout.json> <raw.csv> [--out FILE]
@@ -22,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from vdp import Layout, expand, read_records  # noqa: E402
+from vdp import Layout, expand, expand_lines, read_records  # noqa: E402
 
 
 def prepared_rows(layout, records):
@@ -32,6 +34,16 @@ def prepared_rows(layout, records):
     for record in records:
         row = {h: record.get(h, "") for h in layout.headers}
         for name, template in derived.items():
+            if isinstance(template, dict) and template.get("vcard"):
+                # the whole vCard as one cell, so a MegaEdit barcode bound
+                # to this variable gets its own contact per record; the
+                # same line list and blank-line rule as the PDF engine's QR
+                qr = layout.d.get("qr") or {}
+                lines = expand_lines(qr.get("vcard") or [], record,
+                                     suppress_blank=qr.get("omit_line_if_blank", True))
+                ending = chr(13) + chr(10) if str(template.get("line_ending", "LF")).upper() == "CRLF" else chr(10)
+                row[name] = ending.join(lines)
+                continue
             text, had, blank = expand(template, record)
             row[name] = "" if (had and blank) else text
         rows.append(row)

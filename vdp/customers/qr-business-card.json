@@ -72,7 +72,8 @@
     "derived_columns": {
       "Cell Line":    "C [#Cell Number#]",
       "Office Line":  "T [#Office Number#]",
-      "Address Line": "[#Address#][?, [#Address2#]?],"
+      "Address Line": "[#Address#][?, [#Address2#]?],",
+      "vCard":        {"vcard": true, "line_ending": "LF"}
     }
   },
 

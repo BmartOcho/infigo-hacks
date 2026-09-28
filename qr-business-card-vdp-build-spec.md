@@ -106,24 +106,26 @@ ADR;TYPE=WORK:;[#Address2#];[#Address#];[#City#];[#State#];[#Zip#]
 END:VCARD
 ```
 
-This text is what the PDF engine encodes, and what the MEX carries as the
-barcode's flat value. Two things the MEX needs beyond it, both learned
-from imports that rendered an empty box: the `Barcode Field` script under
-`<Resources><Scripts>` (every barcode export declares it; without it the
-field is inert, in the editor and the output — the generator now declares
-it whenever it adds a barcode) and, matching a real vCard export, an
-`options.vcard` map (card field → CSV column, `organization` a literal)
-that the generator writes as the `ADVANCED`/`V_CARD` block for the
-editor's vCard dialog. The drawn QR comes from the flat text above, so
-the storefront encodes exactly what the PDF engine encodes.
+This text is what the PDF engine encodes. In the MEX it travels
+differently, for reasons learned from five imports:
 
-**Batch limit, observed on import:** MegaEdit resolves the barcode's
-tokens once per batch and puts that same QR on every record, while the
-text fields get their own row. Until that is resolved, the CSV batch on
-the storefront is for ordering and proofing text; the print file with a
-per-record QR comes from `vdp.py build` (§8 step 7), which is already the
-production path for the spot mask. The storefront also ignores the
-barcode's JSON colour and draws black modules; set navy in the editor.
+- The barcode field is inert without the `Barcode Field` script under
+  `<Resources><Scripts>`; the generator declares it with the field.
+- A barcode whose value is this text with tokens renders, but MegaEdit
+  resolves it **once, at save**: a batch put row 1's QR on every record,
+  and the editor does not re-render it when a form value changes.
+- Every real variable-driven barcode export binds the whole value to
+  **one variable**. So the MEX has a `vCard` variable, the barcode is
+  bound to it (`options.variable`), and `prep_csv.py` writes the whole
+  vCard — these lines, blank ones dropped, LF-separated — as one
+  multi-line cell in a derived `vCard` column. The storefront then encodes
+  exactly what the PDF engine encodes, per record.
+- Module colour goes to the XML `<Options><Color>c:m:y:k</Color>` as well
+  as the JSON channels; the JSON alone rendered black.
+
+The `options.vcard` map (card field → CSV column) that writes the
+`ADVANCED` block a real vCard export carries is not needed for rendering;
+it feeds the editor's vCard dialog and is left out of this product.
 
 Cell is listed before office, on the card and in the vCard. Error
 correction L, no quiet zone inside the box (the white knock-out around the
@@ -154,6 +156,7 @@ on the storefront (test plan §9, item 7).
 | Cell Line | No | typed as `C 703.555.0100` | **derived** by `prep_csv.py` |
 | Office Line | No | typed as `T 703.555.0100` | **derived** |
 | Address Line | No | typed as `Street, Suite,` | **derived** |
+| vCard | No | pasted whole, or left blank (QR empty in the editor) | **derived**: the whole vCard of §4 as one multi-line cell; the barcode is bound to this variable |
 
 - The twelve raw variables are **exactly the customer's CSV headers**, so
   the upload maps 1:1 with no renaming.

@@ -167,6 +167,8 @@ class Layout:
             if self.output.get(key):
                 out.append(("output.%s" % key, self.output[key]))
         for name, tpl in ((self.d.get("megaedit") or {}).get("derived_columns") or {}).items():
+            if isinstance(tpl, dict):
+                continue   # {"vcard": true} reuses qr.vcard, checked above
             out.append(("megaedit.derived_columns.%s" % name, tpl))
         return out
 
