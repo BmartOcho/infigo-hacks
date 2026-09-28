@@ -113,10 +113,17 @@ from imports that rendered an empty box: the `Barcode Field` script under
 field is inert, in the editor and the output — the generator now declares
 it whenever it adds a barcode) and, matching a real vCard export, an
 `options.vcard` map (card field → CSV column, `organization` a literal)
-that the generator writes as the `ADVANCED`/`V_CARD` block. MegaEdit may
-assemble its own vCard from those bindings, so the line-level details
-below (TYPE parameters, line order) describe the PDF engine's output; the
-storefront's may differ in form while carrying the same fields.
+that the generator writes as the `ADVANCED`/`V_CARD` block for the
+editor's vCard dialog. The drawn QR comes from the flat text above, so
+the storefront encodes exactly what the PDF engine encodes.
+
+**Batch limit, observed on import:** MegaEdit resolves the barcode's
+tokens once per batch and puts that same QR on every record, while the
+text fields get their own row. Until that is resolved, the CSV batch on
+the storefront is for ordering and proofing text; the print file with a
+per-record QR comes from `vdp.py build` (§8 step 7), which is already the
+production path for the spot mask. The storefront also ignores the
+barcode's JSON colour and draws black modules; set navy in the editor.
 
 Cell is listed before office, on the card and in the vCard. Error
 correction L, no quiet zone inside the box (the white knock-out around the
