@@ -82,8 +82,9 @@ Conditions reference a variable GUID + operator + value GUID; actions target a f
 - **Template-and-modify: high confidence.** Plain zip + declarative JSON/XML. A generator can rewrite variables/fields/logic/forms and swap PDF assets from a config, then repack. Best path.
 - **From-scratch: feasible for simple cards, needs a test-import loop.** Three catches:
   1. **Dual representation** — layout is stored in BOTH `template.xml` (Pages/Content/Field) AND `InDesignData.fields[]`; a generator must keep them consistent (linked by field GUID / originalFieldId / adobeId).
-  2. **Geometry originates from InDesign** — new frames need correct point coords (x/y = center, +bleed). Computable for grid layouts; fiddly otherwise.
+  2. **Geometry originates from InDesign** — new frames need correct point coords: x/y = frame **center**, and the origin is the **trim** corner, not the bleed page (verified on import, Sep 2026: a layout measured on a 270×162 bleed page landed every frame 9 pt low and right; the export's own full-page background sits at centre 126,72 with size 270×162). Subtract the bleed from bleed-page coordinates. Computable for grid layouts; fiddly otherwise.
   3. **Import validation is invisible** until you actually import into MegaEdit — expect to iterate.
+  4. **A QR barcode with the vCard as plain text renders nothing.** It imports cleanly, but the output PDF has an empty box. A real vCard export carries `barcode.value.format = {type: ADVANCED, data: {type: V_CARD, card: {firstName: {type: VARIABLE, variableName: "[#First Name#]", variableId: <guid>}, …}}}` alongside the text, and that structured block is what MegaEdit builds from (verified Sep 2026; the block-only case is the next test).
 - GUID minting + cross-referencing (variable↔logic↔field↔value) is trivial programmatically but must be exact.
 
 ## Text fields & variable binding — CONFIRMED (2026-07-01, follow-up export + Claude round-trip)

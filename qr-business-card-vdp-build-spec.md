@@ -61,6 +61,14 @@ left edge at 22.74 pt, width 160 pt so nothing reaches the logo. Baselines
 below are the approved PDF's; frame tops were derived from them (ascent +
 half-leading) and are first-pass — nudge in the editor if a line lands off.
 
+**Coordinates in this table are on the bleed page** (the placement PDF's
+270 × 162 origin), which is what the PDF engine uses. **MegaEdit's origin
+is the trim corner**, so the `.mex.json` config subtracts the bleed from
+every x and y — the first import landed every frame exactly 9 pt low and
+right. The same import measured the derived frame tops 1.00 pt high on the
+12 pt name and 0.07 pt high on the 7.8 pt lines; both are folded into the
+config.
+
 | Field | Type | Value | Baseline (pt) | Frame h | Font | Align | Notes |
 |---|---|---|---|---|---|---|---|
 | name | TEXT | `[#First Name#] [#Last Name#]` | 31.80 | 14 | Bold 12 pt, brand navy | left / top | |
@@ -97,6 +105,17 @@ URL:[#URL#]
 ADR;TYPE=WORK:;[#Address2#];[#Address#];[#City#];[#State#];[#Zip#]
 END:VCARD
 ```
+
+This text is what the PDF engine encodes, and what the MEX carries as the
+barcode's flat value. **MegaEdit does not build the QR from that text**: a
+barcode carrying only the flat `STANDARD` value imported cleanly and
+rendered an empty box. The config therefore also gives the barcode an
+`options.vcard` map (card field → CSV column, `organization` a literal),
+which the generator writes as the `ADVANCED`/`V_CARD` block a real vCard
+export carries. MegaEdit assembles its own vCard from those bindings, so
+the line-level details below (TYPE parameters, line order) describe the
+PDF engine's output; the storefront's may differ in form while carrying
+the same fields.
 
 Cell is listed before office, on the card and in the vCard. Error
 correction L, no quiet zone inside the box (the white knock-out around the
