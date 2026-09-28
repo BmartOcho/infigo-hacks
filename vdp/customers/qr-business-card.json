@@ -1,0 +1,95 @@
+{
+  "_about": "QR business card, CSV batch: layout for the vdp engine. Units are PDF points, origin top-left of the 270x162 bleed page (3.75x2.25in + 9pt bleed); text y values are BASELINES. Customer art, data and fonts live in the gitignored folder named by base_dir; this file holds geometry only. The same [#Column#] tokens drive the MegaEdit template (see qr-business-card-vdp-build-spec.md at the repo root).",
+  "base_dir": "../../Customer-CSV-Additions/qr-business-card-vdp",
+
+  "page": {"width": 270, "height": 162, "bleed": 9, "trim": [9, 9, 261, 153]},
+
+  "template": {
+    "file": "template-placement.pdf",
+    "variable_pages": [1],
+    "redact_text_pages": [1],
+    "knockouts": {"1": [[194.787, 86.787, 246.6, 138.6]]},
+    "static_pages": [2]
+  },
+
+  "fonts": {
+    "regular": {"file": "fonts/Barlow-Regular.ttf", "declared_name": "Barlow - Regular"},
+    "bold":    {"file": "fonts/Barlow-Bold.ttf",    "declared_name": "Barlow - Bold"}
+  },
+
+  "colors": {
+    "navy": {"hex": "#21366E", "cmyk": [87, 79, 25, 8]},
+    "gray": {"hex": "#747985", "cmyk": [56, 47, 36, 5]}
+  },
+
+  "transforms": {"Cell Number": "phone_dots", "Office Number": "phone_dots"},
+
+  "defaults": {"page": 1, "x": 22.7373, "font": "regular", "size": 7.8, "color": "gray", "leading": 10},
+
+  "fields": [
+    {"name": "name",     "value": "[#First Name#] [#Last Name#]", "font": "bold", "size": 12.0, "color": "navy", "baseline": 31.80},
+    {"name": "title",    "value": "[#Title + Department#]", "baseline": 42.04, "wrap_width": 160, "max_lines": 2},
+    {"name": "phones",   "lines": ["C [#Cell Number#]", "T [#Office Number#]"], "baselines": [81.70, 91.70], "align_v": "bottom"},
+    {"name": "email",    "value": "[#Email#]", "baseline": 105.08},
+    {"name": "url",      "value": "[#URL#]",   "baseline": 115.08},
+    {"name": "address1", "value": "[#Address#][?, [#Address2#]?],", "baseline": 128.64},
+    {"name": "address2", "value": "[#City#], [#State#] [#Zip#]", "baseline": 138.64}
+  ],
+
+  "qr": {
+    "page": 1,
+    "box": [194.96, 87.0, 246.6, 138.64],
+    "module_color": "navy",
+    "background": "white",
+    "error_correction": "L",
+    "quiet_zone_modules": 0,
+    "omit_line_if_blank": true,
+    "line_ending": "CRLF",
+    "vcard": [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "N:[#Last Name#];[#First Name#];;;",
+      "FN:[#First Name#] [#Last Name#]",
+      "ORG:Example Co",
+      "TITLE:[#Title + Department#]",
+      "TEL;TYPE=CELL,VOICE:[#Cell Number#]",
+      "TEL;TYPE=WORK,VOICE:[#Office Number#]",
+      "EMAIL;TYPE=WORK:[#Email#]",
+      "URL:[#URL#]",
+      "ADR;TYPE=WORK:;[#Address2#];[#Address#];[#City#];[#State#];[#Zip#]",
+      "END:VCARD"
+    ]
+  },
+
+  "csv": {
+    "headers": ["First Name", "Last Name", "Title + Department", "Office Number", "Cell Number",
+                "Email", "URL", "Address", "Address2", "City", "State", "Zip"],
+    "required": ["First Name", "Last Name", "Title + Department", "Email"],
+    "skip_row_if_blank": "First Name"
+  },
+
+  "megaedit": {
+    "derived_columns": {
+      "Cell Line":    "C [#Cell Number#]",
+      "Office Line":  "T [#Office Number#]",
+      "Address Line": "[#Address#][?, [#Address2#]?],"
+    }
+  },
+
+  "output": {
+    "single": "QR_BC_[#First Name#]_[#Last Name#].pdf",
+    "merged": "QR_BC_Merged_AllRecords.pdf",
+    "spot_uv_suffix": "_SpotUV"
+  },
+
+  "qc": {
+    "decode_dpi": 600,
+    "duplicate_warn": [["Cell Number", "Office Number"]]
+  },
+
+  "spot_uv": {
+    "spot_name": "SpotUV",
+    "elements": [],
+    "status": "TBD: element list not yet specified (logo / QR / name?) nor whether the mask is per-record or static. Populate elements with {type: qr} | {type: field, name: <field>} | {type: rect, rect: [x0,y0,x1,y1]} and run build --spot-uv."
+  }
+}
