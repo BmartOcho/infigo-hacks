@@ -123,6 +123,10 @@ differently, for reasons learned from five imports:
 - Module colour goes to the XML `<Options><Color>c:m:y:k</Color>` as well
   as the JSON channels; the JSON alone rendered black.
 
+All of the above passed on the sixth import: a five-row batch gave five
+navy QRs, each decoding to its own row's vCard and to the PDF engine's
+QR for the same data, with text at 0.00 pt from the approved PDF.
+
 The `options.vcard` map (card field → CSV column) that writes the
 `ADVANCED` block a real vCard export carries is not needed for rendering;
 it feeds the editor's vCard dialog and is left out of this product.
