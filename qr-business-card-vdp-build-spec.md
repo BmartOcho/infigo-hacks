@@ -42,7 +42,12 @@ token names, so a CSV that works in one works in the other.
 3. **A donor MEX with a native barcode field.** `mexgen build` clones field
    prototypes from a donor; the barcode prototype comes from any export that
    has one. The `skeleton` block replaces the donor's pages, fonts and
-   backgrounds, so the donor's page count and fonts do not matter.
+   backgrounds, so the donor's page count and fonts do not matter. Prefer a
+   plugin 2.8.x donor: a 2.6.7 export predates batch-in-MEX and lacks six
+   text-field keys the newer plugin writes. The generator's own
+   `fixtures/barcode.mex` (2.8.1, batch on, one QR prototype) is enough.
+   Watch what the prototype carries — a badge donor's text fields are
+   `TextCase uppercase`, which a card drops with `"TextCase": null`.
 4. **Generator.** The canonical `mexgen.py` (with `validate`, `skeleton` and
    BARCODE support). The copy in this repo's `mexgen/` is a frozen snapshot
    without those features.
@@ -69,7 +74,8 @@ half-leading) and are first-pass — nudge in the editor if a line lands off.
 
 All text frames: `FieldGrowType fixed`, `FitTextToBox` **off** (the donor
 had shrink-to-fit on, which would silently shrink a long title instead of
-wrapping it), leading 128.2 % of 7.8 pt = 10 pt.
+wrapping it), no `TextCase` element (text renders as typed), leading
+128.2 % of 7.8 pt = 10 pt.
 
 The back is static artwork; no fields.
 
@@ -202,8 +208,11 @@ export its CSV from the order and use that.
 1. `py vdp/vdp.py check <layout> raw.csv` — layout and data sanity.
 2. `py vdp/vdp.py backgrounds <layout>` — front and back background PDFs.
 3. Write the `.mex.json` config (donor with a barcode field, `skeleton`
-   with the two backgrounds and the fonts folder, the variables and fields
-   of §3 and §5, `logic: []`).
+   with the two backgrounds and the fonts folder, `batch: true`, the
+   variables and fields of §3 and §5, `logic: []`). `batch: true` is what
+   makes it a CSV product: it writes the XML `BatchSource`, the JSON
+   `config.batch.mode` and `batchSource: true` on every variable together —
+   batch is a setting inside the MEX, not something admin adds afterwards.
 4. `py mexgen.py build <config>` then `py mexgen.py validate <output.mex>`
    — zero errors, zero warnings expected.
 5. Import into MegaEdit; run the test plan (§9); log the result in the
@@ -228,9 +237,11 @@ export its CSV from the order and use that.
    all present and correct. Literal `[#…#]` in the scan means the tokens
    were not resolved on the side MegaEdit rendered from; record which.
 7. **Blank TEL** — clear Cell Number, scan again: the contact still imports.
-8. **Batch** — upload the prepped CSV with one row that has no cell number:
-   that card shows the office line alone on the lower baseline; every QR
-   scans to its own row; the record count matches.
+8. **Batch** — the product opens with a CSV upload control and the mapping
+   step lists every variable as a column (all raw columns plus the three
+   derived ones). Upload the prepped CSV with one row that has no cell
+   number: that card shows the office line alone on the lower baseline;
+   every QR scans to its own row; the record count matches.
 9. **Self-service** — as a customer, open the editor: prefilled name, title
    and email; type the three line fields; proof matches the batch card.
 10. **PDF engine parity** — `vdp.py build` on the same CSV: every record's

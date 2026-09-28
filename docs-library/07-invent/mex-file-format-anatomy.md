@@ -65,7 +65,18 @@ Conditions reference a variable GUID + operator + value GUID; actions target a f
 
 **forms.pages[].form[]** — the customer-facing field order: `{id, type:"ITEM", label}` list (dropdown, First, Last, Title).
 
-**config.batch** — CSV/batch options (mode, uploadCsv, records, mapping).
+**config.batch** — CSV/batch options. Full block as a 2.8.1 export writes it:
+```
+"config": {"batch": {
+  "mode": "Batch",                       // "Single" on a non-batch product
+  "isMappingEnabled": true, "validation": true,
+  "downloadSample": true, "uploadCsv": true,
+  "records": {"min": 1, "max": 100},
+  "batchSource": {"csv": true, "excel": true},   // excel false on a Single product
+  "csvBatchOptions": {"clientSideHeadersValidation": true, "requiredHeaders": []}
+}}
+```
+**The three-switch rule (diff of a 2.8.1 batch export vs a 2.6.7 single export, Sep 2026):** batch is a MEX-level setting, not admin. Exactly three things differ and they must move together — (1) XML `<Config><Product><BatchSource>csv</BatchSource>`, last child of `<Product>` after `<Download>`; (2) JSON `config.batch.mode` `"Batch"` + `batchSource.csv` `true`; (3) JSON `variables[].batchSource` `true` on every variable that maps to a CSV column. Everything else in the block is identical on both files. `mexgen build` writes all three from one `batch: true|false` key and its validator flags any disagreement (`BATCH_INCONSISTENT`). A 2.6.7 export also lacks `prepopulation.source` on variables and `fitToTracking` / `showNoPrintInPreview` (JSON) and `<FitTextTracking>` / `<TextCase>` / `<ShowNoPrintInPreview>` (XML) on text fields — prefer a 2.8.x donor.
 
 ## Generatability verdict
 - **Template-and-modify: high confidence.** Plain zip + declarative JSON/XML. A generator can rewrite variables/fields/logic/forms and swap PDF assets from a config, then repack. Best path.
