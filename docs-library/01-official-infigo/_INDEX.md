@@ -24,6 +24,10 @@ Grouped by topic. One-line hook per doc.
 - [How to Control Pricing Visibility by Viewer](pricing-visibility-control.md) — `pricing, visibility, settings` — Bulk-hide all pricing via toggle; per-user-type hiding requires Infigo Support.
 - [Setting Up Department-Specific Pricing](department-specific-pricing.md) — `pricing, departments, discounts` — Use a 100% discount with department-requirement, NOT a separate pricing system — head office free, stores pay normally.
 
+## REST API
+
+- [Order line attribute values via API](api-order-line-attributes.md) — `api, orderlineitem, product-attributes, checkout-attributes, variables` — Customer-entered values live in 3 places: line `ProductAttributes`, line `Variables` (editor fields), order-level `CheckoutAttributes` (on `order/detail/{id}`). `orderlineitem/get` takes a job id, not an order number.
+
 ## ConnectID / printIQ Integration
 
 - [Connect: printIQ (Overview)](connect-printiq-overview.md) — `connectid, printiq, mapping, sync` — Canonical integration doc: plugin setup, customer/product/shipping mapping, tax-code matching, additional reference fields, status-update webhooks, POD/stock sync, live inventory + pricing.
@@ -76,6 +80,6 @@ Grouped by topic. One-line hook per doc.
 - The **Prepopulate Data Script** page had a large base64 image embedded that exceeded fetch limits — wrote summary doc from search snippets + companion academy index nav.
 - **MegaEdit Crash Course (IV_#Intro_002)** and the **MegaEdit category landing page** were not in the WebFetch provenance set (search returned only as a result, no direct fetch path) — would need a fresh search round to capture.
 - **Infigo Megascripts Documentation** (academy.infigo.net/c/266) — only fetched one sample script (Form-to-Order); the full Megascripts reference category was not crawled.
-- **API Documentation** (academy.infigo.net/c/262) — surfaced in nav but not fetched. Likely contains the platform's REST API reference.
+- **API Documentation** (academy.infigo.net/c/262): links to the docs app at api.public.infigosoftware.rocks. The raw OpenAPI YAML is at `https://api-lambda.public.infigosoftware.rocks/openapi`; grep that file directly. See [api-order-line-attributes.md](api-order-line-attributes.md).
 - **Infigo Sync install / setup guide** (`/p/488` and `/p/1462`) — referenced by FAQ doc but not separately fetched.
 - The Connect: printIQ overview's "Custom Quoting" and "Data sent to IQ" sections are summarized at high level — full custom-quoting JSON schema is on the dedicated Custom Quoting tutorial page.
