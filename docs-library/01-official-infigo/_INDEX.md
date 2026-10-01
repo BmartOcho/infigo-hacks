@@ -1,6 +1,6 @@
 # Official Infigo Docs — Local Library Index
 
-Harvested from `academy.infigo.net` (Infigo Academy) + `infigosoftware.zendesk.com` (Help Desk). All docs are public-facing tutorials, articles, FAQs, or developer references. 33 files total.
+Harvested from `academy.infigo.net` (Infigo Academy) + `infigosoftware.zendesk.com` (Help Desk). All docs are public-facing tutorials, articles, FAQs, or developer references. 38 files total.
 
 Grouped by topic. One-line hook per doc.
 
@@ -73,7 +73,15 @@ Grouped by topic. One-line hook per doc.
 
 ## Release Notes
 
+- [Infigo Release Notes – September 2026](infigo-release-notes-2026-09.md) — `release-notes, megaedit, svg, custom-name, printiq, api, duplicate-job, search` — MegaEdit SVG Shape field (MegaEdit script); custom names on all product types + product-attribute link to order line; PrintIQ "Mark artwork as submitted on quote acceptance"; DuplicateJob API any state; page builder; Search Terms; tag-filter AND mode; CDN/WebP; login IP audit.
 - [Infigo Release Notes – August 2026](infigo-release-notes-2026-08.md) — `release-notes, mex, job-ticket, fit-to-box, promo-code, customer-csv-import, api` — Job Tickets/Invoices/Packing Slips as Invent-built MEX templates; Fit Width by Tracking; non-printing preview fields; PrintIQ promo-code passthrough; Language/Currency import columns; deferred-payment + budget APIs; "Use paged PDF media" perf.
+- [Infigo Release Notes – July 2026](infigo-release-notes-2026-07.md) — `release-notes, justify, mex, reorder, printiq-sync, megascript, openapi, attribute-combinations, mfa` — Reorder blocked after output replaced; MegaEdit Justify (in MEX, not with Fit to Box); 2-way PrintIQ companies/contacts sync; payment method on API/Megascript orders; OpenAPI 3.0 docs; Generate combinations; MFA; combined job-ticket downloads.
+- [Infigo Release Notes – June 2026](infigo-release-notes-2026-06.md) — `release-notes, megaedit-grid, customers, connect-flow, easypost` — MegaEdit snap grid (fires scripting events); inactive-customer deactivation; full-name + field length limits; Connect Flow GenericJobFiles; EasyPost customs.
+- [Infigo Release Notes – May 2026](infigo-release-notes-2026-05.md) — `release-notes, invent, batch, regex, printiq, attribute-combinations, departments` — Invent batch Regex Text Manipulations; PrintIQ delivery dates at checkout; attribute-combination CSV import/export; customer-created departments; email-domain registration rules.
+- [Infigo Release Notes – April 2026](infigo-release-notes-2026-04.md) — `release-notes, printiq, job-title, approvals, shipping` — PrintIQ "Job Title value" (none/custom name/product name); department-level approvers; shipping by country; processing fee on full total.
+- [Infigo Release Notes – March 2026](infigo-release-notes-2026-03.md) — `release-notes, invent, custom-data, batch, non-batch-output-mode, multipart` — Invent dropdowns fed from admin Custom Data (see 07-invent/invent-centrally-managed-dropdowns.md); MegaEdit batch CSV rework + Non-Batch Output Mode; per-part multipart PDFs; original artwork download.
+- [Infigo Release Notes – February 2026](infigo-release-notes-2026-02.md) — `release-notes, insights, kits, inventory, departments` — Insights dashboards in storefront; kit child attributes; attribute inventory on teasers; searchable departments; EU VAT required.
+- [Infigo Release Notes – January 2026](infigo-release-notes-2026-01.md) — `release-notes, pricing-script, tier-pricing, delivery-date` — Pricing scripts recalculate tier tables per attribute; Production Offset attribute; curated Sort-by; Direct Response MIS; TaxJar nexus; Accept.Blue.
 
 ## Coverage gaps / known issues
 
