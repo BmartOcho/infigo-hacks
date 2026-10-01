@@ -1,6 +1,6 @@
 # Infigo Docs Library — Master Index
 
-100 harvested docs organized by category. Per-folder `_INDEX.md` files have the full list; this file is the entry point with cross-cutting topic pointers and a "start here" shortlist.
+124 harvested docs organized by category. Per-folder `_INDEX.md` files have the full list; this file is the entry point with cross-cutting topic pointers and a "start here" shortlist.
 
 See `_FORMAT.md` for the per-doc file format.
 
@@ -8,13 +8,13 @@ See `_FORMAT.md` for the per-doc file format.
 
 | Folder | Docs | Scope |
 |---|---|---|
-| [`01-official-infigo/`](01-official-infigo/_INDEX.md) | 26 | academy.infigo.net, infigo.net, official blog/KB |
+| [`01-official-infigo/`](01-official-infigo/_INDEX.md) | 38 | academy.infigo.net, infigo.net, official blog/KB |
 | [`02-printiq/`](02-printiq/_INDEX.md) | 21 | PrintIQ docs, GetPrice API, IQconnect, Connect: printIQ from the PrintIQ side |
 | [`03-connectid/`](03-connectid/_INDEX.md) | 9 | Connect: printIQ plugin from the Infigo side — kinds handling, mappings, FAQ |
-| [`04-megaedit/`](04-megaedit/_INDEX.md) | 7 | MegaEdit VDP editor — batch CSV, scripts config, Item.* properties |
+| [`04-megaedit/`](04-megaedit/_INDEX.md) | 9 | MegaEdit VDP editor — batch CSV, scripts config, Item.* properties |
 | [`05-community/`](05-community/_INDEX.md) | 16 | PrintPlanet, Capterra, GitHub type defs, podcasts, YouTube |
 | [`06-third-party/`](06-third-party/_INDEX.md) | 21 | Partner blogs, trade press, case studies, competitor comparisons |
-| [`07-invent/`](07-invent/_INDEX.md) | 7 | Invent InDesign plugin — install, Setup tab, Variable Logic, exporting, FAQ |
+| [`07-invent/`](07-invent/_INDEX.md) | 10 | Invent InDesign plugin — install, Setup tab, Variable Logic, exporting, FAQ |
 
 ## Start here — highest-relevance docs by topic
 
@@ -44,6 +44,7 @@ See `_FORMAT.md` for the per-doc file format.
 - `02-printiq/connect-printiq-other-config.md` — Order Submission (independent vs appended quote)
 - `02-printiq/printiq-v49-release-notes.md` — GetPrice/AcceptQuote v49 extensions
 - `01-official-infigo/infigo-release-notes-2026-08.md` — Aug 2026: MEX job-ticket templates, Fit-to-Box tracking, promo-code → PrintIQ, import Language/Currency, paged PDF media
+- `01-official-infigo/infigo-release-notes-2026-09.md` — Sep 2026: PrintIQ "Mark artwork as submitted on quote acceptance" (auto-PO), default Connect plugin, custom names on all product types
 
 ### Invent (InDesign plugin → MEX → MegaEdit)
 - `07-invent/invent-overview.md` — handoff model + category index
@@ -53,6 +54,8 @@ See `_FORMAT.md` for the per-doc file format.
 - `07-invent/invent-export-package.md` — Export tab flow, validation gotchas
 - `07-invent/invent-mex-export-troubleshoot.md` — OneDrive/Dropbox folders silently swallow exports
 - `07-invent/invent-install.md` — Anastasiy / AEScripts Extension Manager flow
+- `07-invent/logic-rules-json-schema.md` — Variable Logic = plain `logicRules[]` JSON in the MEX; SetValue lookup-table schema, ids not labels, generatable
+- `07-invent/invent-centrally-managed-dropdowns.md` — Text Library fed from Admin → Custom Data (Mar 2026); candidate fix for location data baked into templates
 
 ### MegaEdit editor + scripts
 - `04-megaedit/megaedit-overview.md`
@@ -70,6 +73,15 @@ See `_FORMAT.md` for the per-doc file format.
 - `01-official-infigo/department-specific-pricing.md`
 - `01-official-infigo/rounding-adjustment-on-pricing.md`
 - `01-official-infigo/pricing-visibility-control.md`
+
+### Infigo monthly release notes (2026)
+One file per month in `01-official-infigo/infigo-release-notes-2026-MM.md` (Jan–Sep). Source index: https://academy.infigo.net/c/553/2026. Items with the most impact on this shop:
+- Sep — MegaEdit SVG Shape field (MegaEdit script); custom names + attribute link to order line; DuplicateJob API in any state
+- Aug — job tickets/invoices/packing slips as MEX templates; Fit Width by Tracking
+- Jul — reorder blocked after output replaced; MegaEdit Justify in MEX; payment method on API/Megascript orders; OpenAPI 3.0 reference
+- May — Invent batch Regex Text Manipulations; attribute-combination CSV import/export
+- Mar — Invent dropdowns from Custom Data; MegaEdit batch Non-Batch Output Mode
+- Jan — pricing scripts can recalculate tier tables
 
 ### Real-world deployment context (case studies + reviews)
 - `06-third-party/capterra-infigo-verified-reviews.md` — 17 admin reviews, named pain points

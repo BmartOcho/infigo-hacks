@@ -13,6 +13,8 @@ Documentation harvested from Infigo Academy on **Invent** — the Adobe InDesign
 | [invent-export-package.md](invent-export-package.md) | **Exporting** — Save InDesign file → Export tab → Set Export File → Export. Validation errors block export. |
 | [invent-mex-export-troubleshoot.md](invent-mex-export-troubleshoot.md) | **FAQ** — Common export failure: exporting to OneDrive / Dropbox / cloud-synced folder silently fails. Fix = export to a purely local path. |
 | [invent-faqs.md](invent-faqs.md) | **FAQ** — Master Pages (static only), rectangle frames only, no Adobe Cloud Fonts, log file locations, version check, batch coming-later note. Comment thread confirms batch + Invent integration is a known gap. |
+| [logic-rules-json-schema.md](logic-rules-json-schema.md) | **Hack note** — Variable Logic ships as plain `logicRules[]` JSON inside the MEX (no XML/script counterpart). Full schema of a 47-branch SetValue lookup rule; ids not labels; generatable by mexgen (Phase 6). |
+| [invent-centrally-managed-dropdowns.md](invent-centrally-managed-dropdowns.md) | **Resources (Mar 2026)** — Text Library **External Data Source = Custom Data** (Category Id / Key Field / Value Field): dropdown options come from Admin → Custom Data at load time, so no re-export is needed when data changes. Fails silently back to static. Open questions for multi-location templates: reorder value, several values per key, batch, MEX shape. |
 
 ## Notes / gaps
 
