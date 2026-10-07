@@ -82,6 +82,8 @@ Grouped by topic. One-line hook per doc.
 - [Infigo Release Notes – March 2026](infigo-release-notes-2026-03.md) — `release-notes, invent, custom-data, batch, non-batch-output-mode, multipart` — Invent dropdowns fed from admin Custom Data (see 07-invent/invent-centrally-managed-dropdowns.md); MegaEdit batch CSV rework + Non-Batch Output Mode; per-part multipart PDFs; original artwork download.
 - [Infigo Release Notes – February 2026](infigo-release-notes-2026-02.md) — `release-notes, insights, kits, inventory, departments` — Insights dashboards in storefront; kit child attributes; attribute inventory on teasers; searchable departments; EU VAT required.
 - [Infigo Release Notes – January 2026](infigo-release-notes-2026-01.md) — `release-notes, pricing-script, tier-pricing, delivery-date` — Pricing scripts recalculate tier tables per attribute; Production Offset attribute; curated Sort-by; Direct Response MIS; TaxJar nexus; Accept.Blue.
+- [Product-page 'Cannot use the form value for attributes' Setup log](product-page-attribute-combination-setup-log.md) — `logs, product-attributes, attribute-combinations, crawler` — Setup-level diagnostic from the attribute-combination AJAX lookup; first hit was the Meta crawler (meta-externalagent, 57.141.x.x); textbox attributes never match combinations.
+- [Cart 500 + 'Selected quantity is not available' from unpublished products](cart-unpublished-product-500-quantity-error-Westwood.md) — `cart, unpublished-product, 500, quantity, add-to-cart` — Unpublished products left in customer carts 500 the cart and surface as a misleading quantity error on add-to-cart; triage by impersonating and opening /cart.
 
 ## Coverage gaps / known issues
 
