@@ -25,3 +25,7 @@ desktop.ini
 
 # Nested private repo (github.com/BmartOcho/mexgen-agent) - keep out of this public repo
 MexGen Agent/
+
+# Storefront exports (user imports carry names, emails, passwords). Never commit one.
+*.csv
+!experiments/invent-scripts-slot-test/test-csv.csv
