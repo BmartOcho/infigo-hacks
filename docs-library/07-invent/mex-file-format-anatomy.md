@@ -136,6 +136,24 @@ Same string sits in the XML CDATA. This is how one field carries a multi-size te
 ### IMAGE variables (customer-swappable images as form inputs)
 `type:"IMAGE"` variable: `control{standardFit:"NOCROP", transformation{translate,rotate,scale}, mask}`, `defaultValue{value, resourceSet}`, `source{allowUpload, allowMediaAlbums, allowAllClipartAlbums, allowClipartResourceSets{<setId>:bool}, clipartFilter, fileType}`. Used for icons/vendor logos; pairs with parent-linking to reveal 1..N logo slots.
 
+### Where an IMAGE variable's album lives (checked 2026-11-11, event-flyer MEX, plugin 2.4.1)
+- **Two cases exist — check `resources.Clipart` per file.**
+  - *Embedded set* (business-card baseline dump): `resources.Clipart` has one set, `{id, name:"BC Backs", visibility:"ADMIN_ONLY", items[2]}`, each item with `file.name`, and the PDFs travel in `cliparts/`. Names are in the MEX; the images ship with it.
+  - *Non-embedded sets* (event-flyer MEX and its dump): `resources.Clipart` is an **empty list**, yet eight IMAGE variables reference a dozen clipart set GUIDs (`defaultValue.resourceSet`, keys of `source.allowClipartResourceSets`). This file carries **no album or image names** for them; `cliparts/` holds only the per-frame default art (`page_1_frame_N.pdf`). Only `Color`, `Font` and `TextLibrary` sets are embedded (`{id, name, type, visibility:"ADMINS_AND_USERS", items[]}`).
+- **Import test 2026-11-11 (different storefront):** non-embedded set GUIDs are silently dropped — no warning, no album created or matched. The picker falls back to the product's own `<Product Name> Standard` clipart category (the MEX's frame art) plus media albums. Images that must be pickable either go in the MEX as clipart or in an admin-owned media album shared to the product. Whether the GUIDs resolve on the storefront the template was built against is still unconfirmed. See [[invent-image-variable-clipart-set-resolution]].
+- A placed IMAGE field binds to its variable with `image.imageValue = {type:"VARIABLE", value:{resourceSet:<setId or "">, value:<variableId>}}`; unbound frames have `type:"NONE"`.
+- Other `source` keys seen: `allowExternalClipartAlbums: []`, `minimumResolution: "DEFAULT"`. `allowUpload:false` + `allowMediaAlbums:true` + `allowAllClipartAlbums:true` = pick from albums only, no upload.
+- Name-based referencing is a **batch CSV** feature, not something in the MEX: a CSV cell of `AlbumName/ImageName.ext` swaps the image per record (see ROADMAP, solved 2026-05-27).
+
+### DROPDOWN `mode`
+`mode:"VALUE"` = inline `values[]` list. `mode:"RESOURCE"` = options come from a resource set (`resourceSet:<id>`, `values:[]` empty, `defaultValue` = an item id in that set) — seen for Font, Color and Text Library sets. A dropdown is never an image picker; images use IMAGE variables.
+
+### Variable-level `prepopulation` and `variableScope`
+Every TEXT variable carries `prepopulation: {mode, source, otherValue}`. Enums read from the Invent 2.8.8 plugin source (`CEP/extensions/infigo-invent/src/host/main.jsx`): `mode` = `Nothing | JobId | ProductId | Full Name | First Name | Last Name | Company Name | Address Line 1 | Address Line 2 | City | Country | Country Code | County | County Abbreviation | Postal Code | Mobile | Fax | Email | Preferred Locale | Other`; `source` = `None | Customer Info | Shipping Address | Billing Address` (`None` = auto: Customer Info, then billing, then other saved addresses). `Other` takes the exact name of a customer attribute in `otherValue`. There is no phone/telephone or title mode. Image fields have their own switch: `image.imageValue.type:"PREPOPULATE"` with `prepopulateMode:"Avatar"` (or a "customer image key" from plugin settings); JSON-only, untested on import.
+
+### Field tags: XML carrier
+Invent writes `field.tags[]` to the XML as `<Information>…<CustomData/><Tags><Tag>x</Tag></Tags><FieldConfiguration>` (only when the list is non-empty). Tags written to the JSON alone are **dropped on import** [LIVE, Nov 2026: a generated MEX with JSON-only `prepopulate_*` tags filled nothing]. The Prepopulate Data script's tag list is on the product: Scripts tab > Config > Script MetaData (`tagPrefix` + each `tagKey.Value`, e.g. `prepopulate_fullname`, `_email`, `_telephone`, `_mobile`, `_Title`, `_avatar`); an empty Script config box is normal. All variables in this file have `variableScope:"NONE"`.
+
 ### DATE variables
 `type:"DATE"`: `constraints{min,max,weekdays{...}}`, `format{value:"MMM dd", option:"CUSTOM"}`, `relativeDate:true`, numeric `defaultValue` (relative days).
 
