@@ -40,7 +40,7 @@ Grouped by topic. One-line hook per doc.
 
 - [Introducing the MegaEdit editor interface](megaedit-editor-interface.md) — `megaedit, editor, basics, bleed` — UI tour: Back/Menu, canvas switcher, snap modes, page-bleed black-and-red boxes, left tabs (Fields/Images/Pages/Tools).
 - [How to Apply MegaEdit Variables](megaedit-variables-applying.md) — `megaedit, variables, cross-product` — Same variable set on multiple products = linked field values + thumbnails; apply text styling BEFORE saving as default or thumbnails won't reflect it; interlinked session = basket items keep old values.
-- [Prepopulate Data Script (MegaEdit)](prepopulate-data-script-megaedit.md) — `megaedit, scripts, personalization` — Auto-fill MegaEdit text fields from customer-account fields; enable per-product on Scripts tab.
+- [Prepopulate Data Script (MegaEdit)](prepopulate-data-script-megaedit.md) — `megaedit, scripts, personalization` — Fill text/barcode/image fields from the customer account; per-field data type stored as a `prepopulate_*` tag; Custom1–3 via tags; avatar for images; refilled on every load (customer edits don't stick).
 - [MegaScripts: Form-to-Order Automation](megascripts-form-to-order.md) — `megascripts, api, automation` — Turn an HTML form submission into an Infigo order (no login, no checkout); JSON config maps form fields to customer + order data via `${...}` placeholders.
 
 ## MultiPart Products (Upload + Batching)
@@ -56,6 +56,7 @@ Grouped by topic. One-line hook per doc.
 ## Customers / Bulk Ops
 
 - [Customer CSV Bulk Import](customer-csv-bulk-import.md) — `customers, csv, bulk-import` — Bulk create/update customers via CSV; column headers case-sensitive; Departments and Regions must exist on system first; double-quote in passwords must be escaped (`"test""*2"`).
+- [Product bulk import via Excel](product-excel-bulk-import.md) — `products, excel, bulk-import, categories, static-pdf, stock` — ProductId blank = create, present = update; CategoryIds are numeric; exact `ProductType` strings; StaticPDF imports with no asset, so placeholders can go in before artwork exists.
 - [Import or Reset Customer Budgets with CurrentBudget Column](customer-budget-csv-import.md) — `customers, csv, budgets, ledger` — Add `CurrentBudget` column to customer-import CSV; choose Replace/Add/Ignore at upload time; writes ledger entries.
 
 ## Budgets
@@ -83,11 +84,11 @@ Grouped by topic. One-line hook per doc.
 - [Infigo Release Notes – February 2026](infigo-release-notes-2026-02.md) — `release-notes, insights, kits, inventory, departments` — Insights dashboards in storefront; kit child attributes; attribute inventory on teasers; searchable departments; EU VAT required.
 - [Infigo Release Notes – January 2026](infigo-release-notes-2026-01.md) — `release-notes, pricing-script, tier-pricing, delivery-date` — Pricing scripts recalculate tier tables per attribute; Production Offset attribute; curated Sort-by; Direct Response MIS; TaxJar nexus; Accept.Blue.
 - [Product-page 'Cannot use the form value for attributes' Setup log](product-page-attribute-combination-setup-log.md) — `logs, product-attributes, attribute-combinations, crawler` — Setup-level diagnostic from the attribute-combination AJAX lookup; first hit was the Meta crawler (meta-externalagent, 57.141.x.x); textbox attributes never match combinations.
-- [Cart 500 + 'Selected quantity is not available' from unpublished products](cart-unpublished-product-500-quantity-error-Westwood.md) — `cart, unpublished-product, 500, quantity, add-to-cart` — Unpublished products left in customer carts 500 the cart and surface as a misleading quantity error on add-to-cart; triage by impersonating and opening /cart.
+- [Cart 500 + 'Selected quantity is not available' from unpublished products](cart-unpublished-product-500-quantity-error.md) — `cart, unpublished-product, 500, quantity, add-to-cart` — Unpublished products left in customer carts 500 the cart and surface as a misleading quantity error on add-to-cart; triage by impersonating and opening /cart.
 
 ## Coverage gaps / known issues
 
-- The **Prepopulate Data Script** page had a large base64 image embedded that exceeded fetch limits — wrote summary doc from search snippets + companion academy index nav.
+- The **Prepopulate Data Script** page had a large base64 image embedded that exceeded fetch limits — the original summary was written from search snippets. **Re-harvested 2026-11-11** from the article as rewritten 16 Oct 2026: fetch with curl, then strip `data:…;base64` strings before reading.
 - **MegaEdit Crash Course (IV_#Intro_002)** and the **MegaEdit category landing page** were not in the WebFetch provenance set (search returned only as a result, no direct fetch path) — would need a fresh search round to capture.
 - **Infigo Megascripts Documentation** (academy.infigo.net/c/266) — only fetched one sample script (Form-to-Order); the full Megascripts reference category was not crawled.
 - **API Documentation** (academy.infigo.net/c/262): links to the docs app at api.public.infigosoftware.rocks. The raw OpenAPI YAML is at `https://api-lambda.public.infigosoftware.rocks/openapi`; grep that file directly. See [api-order-line-attributes.md](api-order-line-attributes.md).

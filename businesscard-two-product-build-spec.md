@@ -109,8 +109,8 @@ None in the core build.
 ## 7. Prefill (Prepopulate Data Script)
 
 - Enabled per product on the Scripts tab (§4.3).
-- Fills text fields from the customer's account when the editor loads: First Name, Last Name, Job Title (if stored as a profile field), and Email.
-- Prefilled fields stay **editable** and still count as required — the prefill just satisfies the requirement by default.
+- Fills text fields from the customer's account when the editor loads: First Name, Last Name, Job Title (if stored in a customer custom field — tag the field `prepopulate_Custom1`/`2`/`3`), and Email. Each field's data type is set in the editor (Prepopulate Data button) and saved as product default.
+- **Corrected 2026-11-11 (Academy article rewritten 16 Oct 2026):** prefilled fields are refilled on **every** editor load, so anything the customer types into them is replaced, and a missing account value **clears** the field. Treat prefilled fields as account-driven, not as editable defaults — fix wrong values on the customer record. See `docs-library/01-official-infigo/prepopulate-data-script-megaedit.md`.
 - Location Name, Location Phone, Location Email, and the address block are **not** account data → these remain required CM entries.
 
 ---
