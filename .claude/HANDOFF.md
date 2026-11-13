@@ -1,15 +1,14 @@
 # HANDOFF — infigo-hacks
 
-**Updated:** 2026-11-13 · **Branch:** `docs/pending-notes-genericized` (owner merges) · repo is PUBLIC
-**State:** all pending notes genericized and committed on this branch · working tree clean · merged local branches deleted (one backup branch remains, see Gotchas) · nested `MexGen Agent/` is on `main`, nothing unpushed
+**Updated:** 2026-11-13 · **Branch:** `main` · repo is PUBLIC
+**State:** all pending notes genericized and merged (PR #5) · working tree clean · merged and backup local branches deleted · nested `MexGen Agent/` is on `main`, nothing unpushed
 
 ## Next steps
 0. **New-storefront build (current job).** The customer-specific handoff is NOT in this repo. The
    storefront-build entry in the memory index points to `HANDOFF.md` in the Drive customer folder.
    Business card template is finished and verified (including in Acrobat); what is left is listed there.
-0. **After the owner merges this branch:** `git switch main && git pull`.
 0. **Owner decision:** a cart note committed 2026-10-07 carried a client name, a storefront host and a
-   customer name. The files are fixed on this branch, but the old text is still in `main` history.
+   customer name. The files are fixed (PR #5), but the old text is still in `main` history.
 1. **Check for Infigo's reply to the API ticket** (sent 2026-10-01): `orderlineitem/get` returns
    `ProductAttributes: []` for a line whose product attribute shows in the Order Line Detail report.
    Record their answer in `docs-library/01-official-infigo/api-order-line-attributes.md` (keep it
@@ -28,7 +27,6 @@
 ## Gotchas
 - Public repo. Before every commit, grep the staged diff for personal names, shop name, client names, storefront URLs, order/job ids, `G:\` / `C:\Users` paths, and `hack_*` memory references. Memory `infigo-hacks-repo-is-public.md` has the full list.
 - The QR card `vdp` config in the repo (`vdp/customers/qr-business-card.json`) is genericized (ORG "Example Co"). For real print runs, use the private copy `Customer-CSV-Additions/qr-business-card-vdp/layout.private.json` with `/c/Python313/python.exe`. Memory `qr-business-card-product-status.md` has the details.
-- Local branch `backup/pre-genericize-2026-10-01` still has a customer name in it. Never push it. Its deletion was blocked by a permission rule on 2026-11-13; the owner deletes it with `git branch -D`.
 - Customer reports (Order Line Detail CSVs) contain real customer emails. They stay in Downloads; never copy them into the repo.
 - Infigo's API docs site is a JS app. The raw OpenAPI YAML is at `https://api-lambda.public.infigosoftware.rocks/openapi`, and `/swagger.json`-style paths return 403.
 - `*.pdf` and `*.mex` are blanket-ignored. Commit author must be the GitHub noreply address (already set in this repo's git config).
