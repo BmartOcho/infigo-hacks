@@ -1,15 +1,14 @@
 # HANDOFF — infigo-hacks
 
-**Updated:** 2026-11-13 · **Branch:** `docs/pending-notes-genericized` (owner merges) · repo is PUBLIC
-**State:** all pending notes genericized and committed on this branch · working tree clean · merged and backup local branches deleted · nested `MexGen Agent/` is on `main`, nothing unpushed
+**Updated:** 2026-11-13 · **Branch:** `main` · repo is PUBLIC
+**State:** all pending notes genericized and merged (PR #5) · working tree clean · merged and backup local branches deleted · nested `MexGen Agent/` is on `main`, nothing unpushed
 
 ## Next steps
 0. **New-storefront build (current job).** The customer-specific handoff is NOT in this repo. The
    storefront-build entry in the memory index points to `HANDOFF.md` in the Drive customer folder.
    Business card template is finished and verified (including in Acrobat); what is left is listed there.
-0. **After the owner merges this branch:** `git switch main && git pull`.
 0. **Owner decision:** a cart note committed 2026-10-07 carried a client name, a storefront host and a
-   customer name. The files are fixed on this branch, but the old text is still in `main` history.
+   customer name. The files are fixed (PR #5), but the old text is still in `main` history.
 1. **Check for Infigo's reply to the API ticket** (sent 2026-10-01): `orderlineitem/get` returns
    `ProductAttributes: []` for a line whose product attribute shows in the Order Line Detail report.
    Record their answer in `docs-library/01-official-infigo/api-order-line-attributes.md` (keep it
