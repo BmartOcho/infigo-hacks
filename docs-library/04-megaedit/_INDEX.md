@@ -13,6 +13,7 @@ Documentation harvested from Infigo Academy on **MegaEdit** (Infigo's browser VD
 | [megaedit-scripts-config.md](megaedit-scripts-config.md) | **ME_026 Scripts config** — Per-product vs Global config, custom vs hardcoded scripts |
 | [megaedit-barcodes.md](megaedit-barcodes.md) | **ME_029 Barcodes** — Barcode Field script, types (QR/Data Matrix/GS1), Auto Scale, Human Readable, color |
 | [megaedit-sync-inputs-to-attributes.md](megaedit-sync-inputs-to-attributes.md) | Product Attribute Sync Script — tag fields with `save to attribute_<name>` to push MegaEdit input values into Infigo product attributes on Add to Basket |
+| [background-logo-drops-in-acrobat-unbalanced-form.md](background-logo-drops-in-acrobat-unbalanced-form.md) | **Hack:** logo missing from site PDF in Acrobat but fine in the browser = unbalanced q/Q or BDC/EMC in a background form (sliced .ai stream); rebalance and re-upload the .mex |
 
 ### Pricing scripts (MegaEdit-adjacent VDP/batch)
 
