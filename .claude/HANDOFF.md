@@ -1,7 +1,7 @@
 # HANDOFF — infigo-hacks
 
 **Updated:** 2026-11-13 · **Branch:** `docs/pending-notes-genericized` (owner merges) · repo is PUBLIC
-**State:** all pending notes genericized and committed on this branch · working tree clean · merged local branches deleted (one backup branch remains, see Gotchas) · nested `MexGen Agent/` is on `main`, nothing unpushed
+**State:** all pending notes genericized and committed on this branch · working tree clean · merged and backup local branches deleted · nested `MexGen Agent/` is on `main`, nothing unpushed
 
 ## Next steps
 0. **New-storefront build (current job).** The customer-specific handoff is NOT in this repo. The
@@ -28,7 +28,6 @@
 ## Gotchas
 - Public repo. Before every commit, grep the staged diff for personal names, shop name, client names, storefront URLs, order/job ids, `G:\` / `C:\Users` paths, and `hack_*` memory references. Memory `infigo-hacks-repo-is-public.md` has the full list.
 - The QR card `vdp` config in the repo (`vdp/customers/qr-business-card.json`) is genericized (ORG "Example Co"). For real print runs, use the private copy `Customer-CSV-Additions/qr-business-card-vdp/layout.private.json` with `/c/Python313/python.exe`. Memory `qr-business-card-product-status.md` has the details.
-- Local branch `backup/pre-genericize-2026-10-01` still has a customer name in it. Never push it. Its deletion was blocked by a permission rule on 2026-11-13; the owner deletes it with `git branch -D`.
 - Customer reports (Order Line Detail CSVs) contain real customer emails. They stay in Downloads; never copy them into the repo.
 - Infigo's API docs site is a JS app. The raw OpenAPI YAML is at `https://api-lambda.public.infigosoftware.rocks/openapi`, and `/swagger.json`-style paths return 403.
 - `*.pdf` and `*.mex` are blanket-ignored. Commit author must be the GitHub noreply address (already set in this repo's git config).
