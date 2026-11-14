@@ -4,6 +4,12 @@
 **State:** PRs #5 and #6 merged · this closeout is the only open PR · nested `MexGen Agent/` is on `main`, nothing unpushed
 
 ## Next steps
+0. **FIRST, before anything else (owner is away from the office until the next session):**
+   a. Check PR #7 (this closeout). If it is not merged yet, ask the owner to merge it; never merge it yourself.
+   b. Once merged, run `git switch main && git pull` so local `main` matches the remote.
+   c. Ask whether the publish-all import sheet (import 3, in the Drive `Product Imports` folder) has
+      been run on the site. It could not be run remotely. If not, that is the owner's first site task.
+   d. Ask whether the two loops marked (carried 3x) below are blocked or should be dropped.
 0. **New-storefront build (current job).** The customer-specific handoff is NOT in this repo. The
    storefront-build entry in the memory index points to `HANDOFF.md` in the Drive customer folder.
    First action next session: ask whether the publish-all import sheet (import 3, in the Drive
