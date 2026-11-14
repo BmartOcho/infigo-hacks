@@ -25,6 +25,9 @@ One new storefront: 46 products (13 StaticPDF, 33 Stock) imported in 2 passes wi
 - **StaticPDF imports fine with NO ProductAsset** (verified) — create placeholders now, attach PDFs later.
 - Re-importing a row without ProductId creates a duplicate — strip already-imported rows.
 - Uploaded assets are deleted from the Upload Folder after import.
+- **Category change on update works and replaces** [LIVE, Nov 2026]: re-importing an exported row with its ProductId kept and a different single CategoryIds value moved the product; a fresh export showed only the new category, not both.
+- **An update row overwrites every column**, so always build update sheets from a fresh export. A sheet built from an older export puts back whatever has changed on the site since (names, categories, published state). Include only the rows you mean to change.
+- Round-tripping an export through a script turns empty-string cells into empty cells; the import accepts that. [LIVE, Nov 2026]
 - Not yet verified: attaching ProductAsset on an update-by-ProductId row; changing ProductType on update; multi-category separator.
 
 Sources: https://academy.infigo.net/academy/p/1685/product-import-product-export ; https://academy.infigo.net/academy/p/573 ; https://academy.infigo.net/p/1148/automatically-add-pdfs-to-static-pdf-products-using-the-excel-import-tool-bg_058
