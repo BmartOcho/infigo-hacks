@@ -10,6 +10,7 @@ Documentation harvested from Infigo Academy on **MegaEdit** (Infigo's browser VD
 |------|----------------|
 | [megaedit-overview.md](megaedit-overview.md) | Category index — full ME_001..ME_032 series, sub-categories under Editor Plugins MegaEdit (Basics, Core Components, Editor Tools, MegaEdit Topics, Photo Sources, Scripts, FAQ) |
 | [megaedit-batch-csv-upload.md](megaedit-batch-csv-upload.md) | **ME_022 Batch data** — Two-switch setup (Batch source=CSVPlugin + Standard Batch Script), placeholder syntax `[++Name++]`, CSV upload mapping |
+| [csv-image-swap-album-syntax.md](csv-image-swap-album-syntax.md) | **Hack note (May 2026)** — per-record image swap in batch: CSV cell `AlbumName/ImageName.ext` on an image field (extension required, contrary to Infigo docs). Covers the image half of the Variable-Logic-in-batch gap. |
 | [megaedit-scripts-config.md](megaedit-scripts-config.md) | **ME_026 Scripts config** — Per-product vs Global config, custom vs hardcoded scripts |
 | [megaedit-barcodes.md](megaedit-barcodes.md) | **ME_029 Barcodes** — Barcode Field script, types (QR/Data Matrix/GS1), Auto Scale, Human Readable, color |
 | [megaedit-sync-inputs-to-attributes.md](megaedit-sync-inputs-to-attributes.md) | Product Attribute Sync Script — tag fields with `save to attribute_<name>` to push MegaEdit input values into Infigo product attributes on Add to Basket |
