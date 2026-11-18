@@ -1,12 +1,12 @@
 # HANDOFF — infigo-hacks
 
 **Updated:** 2026-11-18 (evening) CST · **Branch:** `docs/closeout-2026-11-18` (off `main`) · repo is PUBLIC
-**State:** this closeout committed on top of open PR #9, new commit NOT pushed · MexGen Agent repo: branch `fix/variable-ui-label-and-form-groups` (open PR #3) has one new commit (SPEC §5 line model), NOT pushed · memory updated
+**State:** pushed · PRs #9 / #3 already merged earlier on 2026-11-18. The evening commits ride on new PRs (see Next steps) · memory updated
 
 ## Next steps
-1. **Push the two new commits when the owner says so.** Each goes onto its open PR: this repo's
-   `docs/closeout-2026-11-18` (PR #9) and MexGen Agent's `fix/variable-ui-label-and-form-groups` (PR #3,
-   which adds the SPEC §5 single-line text model, import-verified 2026-11-18). Never merge.
+1. **Review and merge the two evening PRs** (owner only): infigo-hacks `docs/closeout-2026-11-18` → main
+   (closeout + roadmap), and mexgen-agent `fix/variable-ui-label-and-form-groups` → main (SPEC §5
+   single-line text model, import-verified 2026-11-18). Never merge from Claude.
 2. **Three-version postcard MEX: customer proof review** (sent 2026-11-16). Ask the owner whether
    alterations came back; otherwise import-test v-01. Memory `three-version-postcard-mex.md`.
 3. Coupon card v-01 import test (memory `coupon-card-mex.md`). Apply the SPEC §5 line model
