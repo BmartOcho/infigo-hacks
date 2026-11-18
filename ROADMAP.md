@@ -14,8 +14,6 @@ Living hub for documenting and solving gaps in the Infigo storefront platform th
 ## Next
 - **Location data outside the MegaEdit template (researched 2026-09-28, deferred).** Multi-location business cards bake every address and phone number into the template, and replacing a template breaks reorders, so each small data edit costs a full product revision (copy → rename → hide old but keep orderable; one product is on its thirteenth). Candidate fix: one last revision where Address/Main/Fax are plain text variables, filled by an Editor script that looks the chosen location up in an admin-managed Custom Data Category (`types-for-megaedit` `EditorData` + `Invent.Variables.Set`). Blocked on: Infigo confirming the Custom Data Category admin screen, and a throwaway-product test that attaching a script doesn't break reorders. Watch the batch caveat in Closed below (`Variables.Set` in CSV batch). **New lead (2026-10-01):** the March 2026 release added a native route. An Invent Text Library can use **External Data Source = Custom Data** (Category Id / Key Field / Value Field), and MegaEdit fills the dropdown from Admin → Custom Data at load, with no script. This may replace the editor-script plan. Infigo Support enables Custom Data access per role. Test reorder behaviour and several values per key first. See `docs-library/07-invent/invent-centrally-managed-dropdowns.md`.
 - Build the split-CSV + two-template workflow as a reusable pattern in `docs-library/` for the **non-image-swap** subset of the Variable Logic gap (multi-field show/hide from CSV still needs split-CSV).
-- Document the CSV image-swap hack (`AlbumName/ImageName.ext`) as a positive pattern in `docs-library/07-invent/`.
-- Document the architectural ceiling for Variable Logic in batch as a known limitation in `docs-library/07-invent/`.
 
 ## Later
 - Host the Pricing Script Generator (`pricing-generator.html`) on Cloudflare Pages / Vercel / Railway so it can be iframed into the an internal team site.
@@ -24,6 +22,9 @@ Living hub for documenting and solving gaps in the Infigo storefront platform th
 - If the Variable-Logic-in-batch pattern recurs across enough projects, stub-test `types-for-megascript` (Server-Side ExecutionType) to definitively rule out the server-side path. Probably hits the same wall but worth knowing.
 
 ## Closed / Won't Do
+- ~~Docs-library write-ups: CSV image-swap syntax and the Variable-Logic-in-batch ceiling.~~ Written 2026-11-18: `docs-library/04-megaedit/csv-image-swap-album-syntax.md`, `docs-library/07-invent/variable-logic-batch-ceiling.md`.
+- ~~QR business card edge cases (TEXT required flags, blank cell line, vCard in form, spot-UV list).~~ Dropped 2026-11-18 by the owner. The product passed and is live; reopen if the customer hits one.
+- ~~Old commit history carrying client identifiers (2026-10-07 cart note).~~ Accepted 2026-11-18 by the owner: the current files are clean, and history is left as is.
 - ~~Name-badge batch product: final QA.~~ End-to-end checkout test passed (confirmed 2026-10-01): the price holds through checkout.
 - ~~Name-badge batch product: re-attach ConnectID.~~ Settled 2026-10-01 with custom Infigo pricing scripts, which avoid the batch cart-multiplication bug. Neither the parent-pricing cart setting nor routing-only ConnectID was needed.
 - ~~Editor-runtime MegaScript bridge for Invent Variable Logic in CSV batch.~~ Confirmed impossible after 9 probes. SaveFields doesn't propagate to render. Variables.Set doesn't trigger Variable Logic in batch context. Both preview AND output PDF render with the wrong background.
