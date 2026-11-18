@@ -131,7 +131,13 @@ Same string sits in the XML CDATA. This is how one field carries a multi-size te
 `variable.parent = {enabled: true, variableId: <controlling dropdown>, value: [<valueIds that reveal it>]}` — e.g. "Custom Title" appears only when "Flyer Title" == "Custom". Declarative show/hide of FORM INPUTS; no Variable Logic involved, so no fire-on-change-vs-load concern. (Field visibility on the CANVAS still needs Show/Hide rules.)
 
 ### Form GROUPs (nested)
-`forms.pages[0].form[]` items can be `{type:"GROUP", id, label, items:[...]}` with nested ITEMs/GROUPs. Inside groups, items reference variables via **`variableID`** (capital D) + `name`; top-level ITEMs use plain `id`. Top-level JSON `groups` stays `[]`.
+`forms.pages[0].form[]` items can be `{type:"GROUP", id, label, items:[...]}` with nested ITEMs/GROUPs. Inside groups, items reference variables via **`variableID`** (capital D) + `name`; top-level ITEMs use plain `id`. Top-level JSON `groups` stays `[]`. A generated file with five groups imported and showed each heading over its inputs [LIVE, Nov 2026].
+
+### Input captions come from the variable, not the form
+The caption over each form input is `variables[].ui.label`; empty falls back to the variable name. The form ITEM `label` does not override it. A generated file whose variables were cloned from a donor variable with `ui.label: "Job Title"` showed "Job Title" over every input [LIVE, Nov 2026]. When cloning variables, reset `ui` to `{help:"", label:""}` or set a caption deliberately.
+
+### One form per page
+`forms.pages[]` can hold one entry per page with a **0-based** `pageIndex`: `[{pageIndex:0, form:[...]}, {pageIndex:1, form:[...]}]`. The editor swaps the form as the customer changes page; a QR bound to a variable on the page-2 form still re-renders [LIVE, Nov 2026, two-sided flyer]. No Invent export seen uses it; every one has a single entry with `pageIndex: null` (one form for the whole product).
 
 ### IMAGE variables (customer-swappable images as form inputs)
 `type:"IMAGE"` variable: `control{standardFit:"NOCROP", transformation{translate,rotate,scale}, mask}`, `defaultValue{value, resourceSet}`, `source{allowUpload, allowMediaAlbums, allowAllClipartAlbums, allowClipartResourceSets{<setId>:bool}, clipartFilter, fileType}`. Used for icons/vendor logos; pairs with parent-linking to reveal 1..N logo slots.
