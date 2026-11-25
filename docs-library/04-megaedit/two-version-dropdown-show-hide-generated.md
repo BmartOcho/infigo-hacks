@@ -41,5 +41,24 @@ runs, `build_mex.py . <name>.mex`). `mexgen validate --strict`: 0/0.
 - Resting `visible:false` covers the default even if rules don't fire on load (unconfirmed, SPEC §18).
 - Logic is form-driven only — no CSV batch on this product.
 
+## Second use (2026-11-25): layout variants sharing inputs
+A 2-sided flyer with a "4 Camps / 8 Camps" layout dropdown, built the same way
+(8-camp art = hidden full-bleed clipart on both pages). New wrinkles:
+- **Shared inputs across layouts:** one variable can feed a text field in each
+  layout (`[#Camp 1 Theme#]` in both), so typed values survive a layout switch.
+  Only the extra camps' variables are parent-linked to the bigger option.
+- **Parent links are per variable, not per form slot**, so an input that changes
+  side between layouts can't live in per-side forms (`forms.pages[]` by
+  pageIndex) — use one form for both sides.
+- Parent links sit on ITEMs; nothing hides a GROUP. Whether MegaEdit drops a
+  group whose items are all hidden is the open import-test question.
+- **Import-verified 2026-11-25** on this product: the dropdown swapped art and
+  fields on both pages, the hidden layout's fields stayed out of the print PDF
+  (the page background still sits under the opaque clipart in the content
+  stream), and shared inputs carried over. First live confirmation of the
+  generated Show/Hide rule.
+- Each layout carries its own QR/barcode field (positions differed) bound to the
+  same URL variable, in the Show/Hide sets like any other field.
+
 ## Related
 [[logic-rules-json-schema]] [[conditional-businesscard-template-pattern]]
